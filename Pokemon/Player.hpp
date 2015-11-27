@@ -34,16 +34,20 @@ public:
     void moveLeft();
     void moveDown();
     void moveRight();
-    void setIsAnimated(bool b);
-    bool isAnimate() const;
-    void animate(bool animate);
+    bool isInMovement() const;
+    void animate(bool);
+    
     
 private:
     sf::Texture *playerTex;
     sf::Sprite *playerSprite;
     sf::Vector2i *spriteCoord;
     
-    bool isAnimated;
+    bool isMoving;
+    int destination_x;
+    int destination_y;
+    
+    float playerSpeed;
 };
 
 

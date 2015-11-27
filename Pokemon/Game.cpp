@@ -80,27 +80,22 @@ void Game::handlePlayerMovement(sf::Clock &clock)
     sf::Vector2i spriteCoord(0, Player::Directions::DOWN);
     
     //Directions
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)  || player->isInMovement()) {
         player->moveUp();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || player->isInMovement()) {
         player->moveRight();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || player->isInMovement()) {
         player->moveDown();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || player->isInMovement()) {
         player->moveLeft();
     }
     
-    //Animation
-    if (player->isAnimate()) {
-        frameCounter += frameSpeed * clock.restart().asSeconds();
-        if (frameCounter >= switchFrame) {
-            frameCounter = 0;
-            player->animate(true);
-        }
-    } else {
-        player->animate(false);
+    frameCounter += frameSpeed * clock.restart().asSeconds();
+    if (frameCounter >= switchFrame) {
+        frameCounter = 0;
+        player->animate(true);
     }
 }

@@ -14,7 +14,7 @@ std::string resourcePath(void)
 #endif
     } else {
         NSString* path = [bundle resourcePath];
-        rpath = [path UTF8String] + std::string("/");
+        rpath = [path UTF8String] + std::string("/Resources/");
     }
 
     [pool drain];
