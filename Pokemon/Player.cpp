@@ -21,12 +21,22 @@ Player::Player()
     playerSprite = new sf::Sprite;
     spriteCoord = new sf::Vector2i;
     
-    isAnimated = false;
-    
     if (!playerTex->loadFromFile(resourcePath() + "male_player_walk.png"))
         std::cout << "ERROR : could not load player Texture" << std::endl;
 
     playerSprite->setTexture(*playerTex);
+    playerSprite->setTextureRect(sf::IntRect(
+        spriteCoord->x * SPRITE_WIDTH,
+        spriteCoord->y * SPRITE_HEIGHT,
+        SPRITE_WIDTH,
+        SPRITE_HEIGHT
+    ));
+
+    isMoving = false;
+    destination_x = playerSprite->getPosition().x;
+    destination_y = playerSprite->getPosition().y;
+    
+    playerSpeed = .25;
 }
 Player::~Player()
 {
@@ -53,84 +63,90 @@ sf::Vector2i& Player::getSpriteCoord() const
  */
 void Player::moveUp()
 {
-    if (playerSprite->getPosition().y < 0) {
-        playerSprite->setPosition(playerSprite->getPosition().x, 0);
-        
-        return;
+    if (!isMoving) {
+        spriteCoord->y = Directions::UP;
+        isMoving = true;
+        destination_y -= SPRITE_HEIGHT;
     }
     
-    spriteCoord->y = Directions::UP;
-    playerSprite->move(0, -.5);
+    if (destination_y < playerSprite->getPosition().y)
+        playerSprite->move(0, -playerSpeed);
+    
+    if (destination_x == playerSprite->getPosition().x && destination_y == playerSprite->getPosition().y)
+        isMoving = false;
 }
 /*
  Check for left edge boundary. Move left if OK
  */
 void Player::moveLeft()
 {
-    if (playerSprite->getPosition().x < 0) {
-        playerSprite->setPosition(0, playerSprite->getPosition().y);
-        
-        return;
+    if (!isMoving) {
+        spriteCoord->y = Directions::LEFT;
+        isMoving = true;
+        destination_x -= SPRITE_WIDTH;
     }
     
-    spriteCoord->y = Directions::LEFT;
-    playerSprite->move(-.5, 0);
+    if (destination_x < playerSprite->getPosition().x)
+        playerSprite->move(-playerSpeed, 0);
+    
+    if (destination_x == playerSprite->getPosition().x && destination_y == playerSprite->getPosition().y)
+        isMoving = false;
 }
 /*
  Check for bottom edge boundary. Move down if OK
  */
 void Player::moveDown()
 {
-    if (playerSprite->getPosition().y > Game::WINDOW_HEIGHT - SPRITE_HEIGHT) {
-        playerSprite->setPosition(playerSprite->getPosition().x, Game::WINDOW_HEIGHT - SPRITE_HEIGHT);
-        
-        return;
+    if (!isMoving) {
+        spriteCoord->y = Directions::DOWN;
+        isMoving = true;
+        destination_y += SPRITE_HEIGHT;
     }
     
-    spriteCoord->y = Directions::DOWN;
-    playerSprite->move(0, .5);
+    if (destination_y > playerSprite->getPosition().y)
+        playerSprite->move(0, playerSpeed);
+    
+    if (destination_x == playerSprite->getPosition().x && destination_y == playerSprite->getPosition().y)
+        isMoving = false;
+
 }
 /*
  Check for right edge boundary. Move right if OK
  */
 void Player::moveRight()
 {
-    if (playerSprite->getPosition().x > Game::WINDOW_WIDTH - SPRITE_WIDTH) {
-        playerSprite->setPosition(Game::WINDOW_WIDTH - SPRITE_WIDTH, playerSprite->getPosition().y);
-        
-        return;
+    if (!isMoving) {
+        spriteCoord->y = Directions::RIGHT;
+        isMoving = true;
+        destination_x += SPRITE_WIDTH;
     }
     
-    spriteCoord->y = Directions::RIGHT;
-    playerSprite->move(.5, 0);
-}
-/*
- set if the sprite must be animated
- */
-void Player::setIsAnimated(bool b)
-{
-    isAnimated = b;
+    if (destination_x > playerSprite->getPosition().x)
+        playerSprite->move(playerSpeed, 0);
+    
+    if (destination_x == playerSprite->getPosition().x && destination_y == playerSprite->getPosition().y)
+        isMoving = false;
 }
 /*
  return if the sprite is animated
  */
-bool Player::isAnimate() const
+bool Player::isInMovement() const
 {
-    return isAnimated;
+    return isMoving;
 }
 /*
  Animate the sprite if animate is equal to true.
  If animate is equal to false, reset the sprite position
  */
-void Player::animate(bool animate = true)
+void Player::animate(bool)
 {
-    if (animate) {
+    if(!isMoving) {
+        spriteCoord->x = 1;
+    } else {
         spriteCoord->x++;
         if (spriteCoord->x * SPRITE_WIDTH >= playerTex->getSize().x) {
             spriteCoord->x = 0;
         }
-    } else {
-        spriteCoord->x = 1;
     }
     
     playerSprite->setTextureRect(sf::IntRect(

@@ -21,11 +21,15 @@ int main(int, char const**)
                 case sf::Event::Closed:
                     game.getWindow().close();
                     break;
-                case sf::Event::KeyPressed:
-                    game.getPlayer().setIsAnimated(true);
-                    break;
                 case sf::Event::KeyReleased:
-                    game.getPlayer().setIsAnimated(false);
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
+                        || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
+                        || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
+                        || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                        game.getPlayer().animate(false);
+                    }
+                    
+                    break;
             }
         }
         
