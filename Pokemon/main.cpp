@@ -21,6 +21,11 @@ int main(int, char const**)
                 case sf::Event::Closed:
                     game.getWindow().close();
                     break;
+                case sf::Event::KeyPressed:
+                    game.getPlayer().setIsAnimated(true);
+                    break;
+                case sf::Event::KeyReleased:
+                    game.getPlayer().setIsAnimated(false);
             }
         }
         

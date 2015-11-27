@@ -30,11 +30,20 @@ public:
     sf::Sprite& getPlayerSprite() const;
     sf::Vector2i& getSpriteCoord() const;
     
+    void moveUp();
+    void moveLeft();
+    void moveDown();
+    void moveRight();
+    void setIsAnimated(bool b);
+    bool isAnimate() const;
+    void animate(bool animate);
     
 private:
     sf::Texture *playerTex;
     sf::Sprite *playerSprite;
     sf::Vector2i *spriteCoord;
+    
+    bool isAnimated;
 };
 
 
