@@ -15,9 +15,8 @@ int main(int, char const**)
     sf::Clock clock;
     sf::Texture tileTex;
     sf::Sprite tiles;
-    sf::Vector2i map[100][100];
-    //std::vector<std::vector<sf::Vector2i> map;
-    sf::Vector2i loadCounter = sf::Vector2i(0,0);
+    std::vector<std::vector<sf::Vector2i>> map;
+    std::vector<sf::Vector2i> tmpMap;
     
     /**/
     
@@ -33,19 +32,16 @@ int main(int, char const**)
             openfile >> str;
             char x = str[0], y = str[2];
             if(!isdigit(x) || !isdigit(y))
-                map[loadCounter.x][loadCounter.y] = sf::Vector2i(-1, -1);
+                tmpMap.push_back(sf::Vector2i(-1, -1));
             else
-                map[loadCounter.x][loadCounter.y] = sf::Vector2i(x - '0', y - '0');
+                tmpMap.push_back(sf::Vector2i(x - '0', y - '0'));
             
             if (openfile.peek() == '\n') {
-                loadCounter.x = 0;
-                loadCounter.y++;
-            } else {
-                loadCounter.x++;
+                map.push_back(tmpMap);
+                tmpMap.clear();
             }
         }
-        
-        loadCounter.y++;
+        map.push_back(tmpMap);
     } else
         std::cout << "ERROR" << std::endl;
     
@@ -76,16 +72,15 @@ int main(int, char const**)
         }
         
         /**/
-        for(int i = 0; i < loadCounter.x; i++) {
-            for(int j = 0; j < loadCounter.y; j++) {
+        for(int i = 0; i < map.size(); i++) {
+            for(int j = 0; j < map[i].size(); j++) {
                 if (map[i][j].x != -1 && map[i][j].y != -1) {
-                    tiles.setPosition(i*32, j*32);
+                    tiles.setPosition(j*32, i*32);
                     tiles.setTextureRect(sf::IntRect(map[i][j].x*32, map[i][j].y*32, 32, 32));
                     game.getWindow().draw(tiles);
                 }
             }
         }
-        
         /**/
         
         game.handlePlayerMovement(clock);
