@@ -21,7 +21,7 @@ Player::Player()
     playerSprite = new sf::Sprite;
     spriteCoord = new sf::Vector2i;
     
-    if (!playerTex->loadFromFile(resourcePath() + "male_player_walk.png"))
+    if (!playerTex->loadFromFile(resourcePath() + "Characters/male_player_walk.png"))
         std::cout << "ERROR : could not load player Texture" << std::endl;
 
     playerSprite->setTexture(*playerTex);
@@ -33,9 +33,6 @@ Player::Player()
     ));
 
     isMoving = false;
-    destination_x = playerSprite->getPosition().x;
-    destination_y = playerSprite->getPosition().y;
-    
     playerSpeed = .25;
 }
 Player::~Player()
