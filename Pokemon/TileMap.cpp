@@ -25,18 +25,19 @@ TileMap::~TileMap()
 
 int TileMap::getWidth()
 {
-    return map[0].size();
+    return bgMap[0].size();
 }
 int TileMap::getHeight()
 {
-    return map.size();
+    return bgMap.size();
 }
 
-void TileMap::load()
+std::vector<std::vector<sf::Vector2i>> TileMap::load(const std::string &path)
 {
     std::vector<sf::Vector2i> tmpMap;
+    std::vector<std::vector<sf::Vector2i>> map;
     
-    std::ifstream openfile(resourcePath() + MAPS_DIRECTORY + mapFileName);
+    std::ifstream openfile(path);
     if (openfile.is_open()) {
         std::string tileLocation;
         std::getline(openfile, tileLocation);
@@ -62,15 +63,25 @@ void TileMap::load()
         }
     } else
         std::cout << "ERROR : Unable to load the tilemap " + mapFileName << std::endl;
+    
+    return map;
 
+}
+
+void TileMap::loadMaps()
+{
+    bgMap = load(resourcePath() + MAPS_DIRECTORY + mapFileName + "-bg.txt");
+    fgMap = load(resourcePath() + MAPS_DIRECTORY + mapFileName + "-fg.txt");
 }
 
 void TileMap::draw(sf::RenderWindow &window)
 {
-    for(int i = 0; i < map.size(); i++) {
-        for(int j = 0; j < map[i].size(); j++) {
+    for(int i = 0; i < bgMap.size(); i++) {
+        for(int j = 0; j < bgMap[i].size(); j++) {
             tiles.setPosition(j * TILE_HEIGHT, i * TILE_WIDTH);
-            tiles.setTextureRect(sf::IntRect(map[i][j].x * TILE_WIDTH, map[i][j].y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
+            tiles.setTextureRect(sf::IntRect(bgMap[i][j].x * TILE_WIDTH, bgMap[i][j].y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
+            window.draw(tiles);
+            tiles.setTextureRect(sf::IntRect(fgMap[i][j].x * TILE_WIDTH, fgMap[i][j].y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
             window.draw(tiles);
         }
     }

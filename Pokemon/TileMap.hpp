@@ -37,13 +37,15 @@ public:
     int getWidth();
     int getHeight();
     
-    void load();
+    std::vector<std::vector<sf::Vector2i>> load(const std::string &path);
+    void loadMaps();
     void draw(sf::RenderWindow &window);
     
 private:
     sf::Texture tileTex;
     sf::Sprite tiles;
-    std::vector<std::vector<sf::Vector2i>> map;
+    std::vector<std::vector<sf::Vector2i>> bgMap;
+    std::vector<std::vector<sf::Vector2i>> fgMap;
     std::string mapFileName;
 
 };
