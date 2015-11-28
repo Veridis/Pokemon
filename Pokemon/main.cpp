@@ -4,11 +4,15 @@
 
 #include "Utils.hpp"
 #include "Game.hpp"
+#include "TileMap.hpp"
 
 int main(int, char const**)
 {
     Game game;
     sf::Clock clock;
+    
+    TileMap map("bourg-palette.txt");
+    map.load();
     
     // Start the game loop
     while (game.getWindow().isOpen())
@@ -22,20 +26,21 @@ int main(int, char const**)
                     game.getWindow().close();
                     break;
                 case sf::Event::KeyReleased:
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
-                        || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
-                        || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-                        || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                    if (event.key.code == sf::Keyboard::Up
+                        || event.key.code == sf::Keyboard::Right
+                        || event.key.code == sf::Keyboard::Down
+                        || event.key.code == sf::Keyboard::Left) {
                         game.getPlayer().animate(false);
-                    }
-                    
+                    }                
                     break;
             }
         }
         
+        map.draw(game.getWindow());
+        
         game.handlePlayerMovement(clock);
-                
         game.getWindow().draw(game.getPlayer().getPlayerSprite());
+        
         game.getWindow().display();
         game.getWindow().clear();
 

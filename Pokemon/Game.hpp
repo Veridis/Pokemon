@@ -21,6 +21,7 @@ public:
     //constants declarations
     static const int WINDOW_WIDTH;
     static const int WINDOW_HEIGHT;
+    static const float ANIMATION_TIME;
     
     //Constructors
     Game();
@@ -28,20 +29,11 @@ public:
     
     //Functions/Methods
     sf::RenderWindow& getWindow() const;
-    int getFrameCounter() const;
-    void incrementFrameCounter(int i);
-    void resetFrameCounter();
-    int getFrameSpeed() const;
-    int getSwitchFrame() const;
     
     Player& getPlayer() const;
     void handlePlayerMovement(sf::Clock &clock);
     
 private:
-    int frameCounter;
-    int frameSpeed;
-    int switchFrame;
-    
     sf::RenderWindow *window;
     
     Player *player;

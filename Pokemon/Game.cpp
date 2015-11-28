@@ -16,13 +16,10 @@
 
 const int Game::WINDOW_WIDTH = 800;
 const int Game::WINDOW_HEIGHT = 600;
+const float Game::ANIMATION_TIME = 100;
 
 Game::Game()
 {
-    frameCounter = 0;
-    switchFrame = 100;
-    frameSpeed = 1000;
-    
     //Window Initialisation
     window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Pokemon !", sf::Style::Close | sf::Style::Titlebar);
     sf::Image icon;
@@ -51,27 +48,6 @@ Player& Game::getPlayer() const
     return *player;
 }
 
-int Game::getFrameCounter() const
-{
-    return frameCounter;
-}
-void Game::incrementFrameCounter(int i)
-{
-    frameCounter += i;
-}
-void Game::resetFrameCounter()
-{
-    frameCounter = 0;
-}
-int Game::getSwitchFrame() const
-{
-    return switchFrame;
-}
-int Game::getFrameSpeed() const
-{
-    return frameSpeed;
-}
-
 /*
  Handle event and keyboards keys for player movements
  */
@@ -93,9 +69,8 @@ void Game::handlePlayerMovement(sf::Clock &clock)
         player->moveLeft();
     }
     
-    frameCounter += frameSpeed * clock.restart().asSeconds();
-    if (frameCounter >= switchFrame) {
-        frameCounter = 0;
+    if (clock.getElapsedTime().asMilliseconds() > ANIMATION_TIME) {
         player->animate(true);
+        clock.restart();
     }
 }

@@ -34,6 +34,11 @@ Player::Player()
 
     isMoving = false;
     playerSpeed = .25;
+    
+    playerSprite->setPosition(128, 256);
+    destination_x = playerSprite->getPosition().x;
+    destination_y = playerSprite->getPosition().y;
+    
 }
 Player::~Player()
 {
@@ -105,7 +110,6 @@ void Player::moveDown()
     
     if (destination_x == playerSprite->getPosition().x && destination_y == playerSprite->getPosition().y)
         isMoving = false;
-
 }
 /*
  Check for right edge boundary. Move right if OK
