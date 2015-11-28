@@ -22,6 +22,15 @@ TileMap::~TileMap()
     
 }
 
+int TileMap::getWidth()
+{
+    return map[0].size();
+}
+int TileMap::getHeight()
+{
+    return map.size();
+}
+
 void TileMap::load()
 {
     std::vector<sf::Vector2i> tmpMap;

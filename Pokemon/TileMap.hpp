@@ -33,6 +33,9 @@ public:
     ~TileMap();
     
     //Functions/Methods
+    int getWidth();
+    int getHeight();
+    
     void load();
     void draw(sf::RenderWindow &window);
     
