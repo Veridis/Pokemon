@@ -32,9 +32,11 @@ public:
     
     Player& getPlayer() const;
     void handlePlayerMovement(sf::Clock &clock);
+    void handleCamera(sf::FloatRect boundaries);
     
 private:
     sf::RenderWindow *window;
+    sf::View *camera;
     
     Player *player;
     

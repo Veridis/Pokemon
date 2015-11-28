@@ -13,11 +13,7 @@ int main(int, char const**)
     
     TileMap map("palet-town");
     map.loadMaps();
-    game.getPlayer().teleportTo(5, 5);
-    
-    /**/
-    sf::View camera;
-    /**/
+    game.getPlayer().teleportTo(19, 22);
     
     // Start the game loop
     while (game.getWindow().isOpen())
@@ -40,34 +36,16 @@ int main(int, char const**)
                     break;
             }
         }
-        
-        /**/
-        camera.reset(sf::FloatRect(0,0, Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT));
-        sf::Vector2f position(Game::WINDOW_WIDTH / 2, Game::WINDOW_HEIGHT / 2);
-        position.x = game.getPlayer().getPlayerSprite().getPosition().x + 16 - Game::WINDOW_WIDTH / 2;
-        position.y = game.getPlayer().getPlayerSprite().getPosition().y + 16 - Game::WINDOW_HEIGHT / 2;
-        if (position.x < 0)
-            position.x = 0;
-        if (position.x > (map.getWidth() * TileMap::TILE_WIDTH) - Game::WINDOW_WIDTH)
-            position.x = (map.getWidth() * TileMap::TILE_WIDTH) - Game::WINDOW_WIDTH;
-        if (position.y < 0)
-            position.y = 0;
-        if (position.y > (map.getHeight() * TileMap::TILE_HEIGHT) - Game::WINDOW_HEIGHT)
-            position.y = (map.getHeight() * TileMap::TILE_HEIGHT) - Game::WINDOW_HEIGHT;
-        
-        camera.reset(sf::FloatRect(position.x, position.y, Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT));
-        game.getWindow().setView(camera);
-        /**/
-        
-        
+
+        game.handleCamera(sf::FloatRect(0,0, map.getWidth(), map.getHeight()));
+        //Drawing the map (BG & FG)
         map.draw(game.getWindow());
-        
         game.handlePlayerMovement(clock);
+        //Drawing the player
         game.getWindow().draw(game.getPlayer().getPlayerSprite());
         
         game.getWindow().display();
         game.getWindow().clear();
-
     }
 
     return EXIT_SUCCESS;
