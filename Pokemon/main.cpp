@@ -21,18 +21,32 @@ int main(int, char const**)
     
     /**/
     
-    std::ifstream openfile(resourcePath() + "Maps/bourg-palette.map");
+    std::ifstream openfile(resourcePath() + "Maps/palette.txt");
     if (openfile.is_open()) {
         std::string tileLocation;
         std::getline(openfile, tileLocation);
         tileTex.loadFromFile(resourcePath() + tileLocation);
         tiles.setTexture(tileTex);
-        
+        while (!openfile.eof()) {
+            std::string line, value;
+            std::getline(openfile, line);
+            std::stringstream stream(line);
+            while (std::getline(stream, value, ',')) {
+                int x = (atoi(value.c_str())-1) % (tileTex.getSize().x/32);
+                int y = (atoi(value.c_str())-1) / (tileTex.getSize().x/32);
+                
+                tmpMap.push_back(sf::Vector2i(x, y));
+            }
+            map.push_back(tmpMap);
+            tmpMap.clear();
+        }
+        /*
         while (!openfile.eof()) {
             std::string str, value;
             std::getline(openfile, str);
             std::stringstream stream(str);
             while (std::getline(stream, value, ' ')) {
+                std::cout << value << std::endl;
                 if(value.length() > 0) {
                     std::string xx = value.substr(0, value.find(','));
                     std::string yy = value.substr(value.find(',') + 1);
@@ -56,7 +70,7 @@ int main(int, char const**)
             
             map.push_back(tmpMap);
             tmpMap.clear();
-        }
+        }*/
     } else
         std::cout << "ERROR" << std::endl;
     /**/
@@ -88,11 +102,9 @@ int main(int, char const**)
         /**/
         for(int i = 0; i < map.size(); i++) {
             for(int j = 0; j < map[i].size(); j++) {
-                if (map[i][j].x != -1 && map[i][j].y != -1) {
-                    tiles.setPosition(j*32, i*32);
-                    tiles.setTextureRect(sf::IntRect(map[i][j].x*32, map[i][j].y*32, 32, 32));
-                    game.getWindow().draw(tiles);
-                }
+                tiles.setPosition(j*32, i*32);
+                tiles.setTextureRect(sf::IntRect(map[i][j].x*32, map[i][j].y*32, 32, 32));
+                game.getWindow().draw(tiles);
             }
         }
         /**/
