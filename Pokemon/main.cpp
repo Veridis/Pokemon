@@ -15,6 +15,11 @@ int main(int, char const**)
     map.loadMaps();
     game.getPlayer().teleportTo(19, 22);
     
+    sf::Music music;
+    if (!music.openFromFile(resourcePath() + "Musics/opening.ogg"))
+        std::cout << "ERROR : Unable to load music";
+    music.play();
+    
     // Start the game loop
     while (game.getWindow().isOpen())
     {
