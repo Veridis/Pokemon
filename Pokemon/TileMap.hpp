@@ -9,12 +9,16 @@
 #ifndef TileMap_hpp
 #define TileMap_hpp
 
-#include <stdio.h>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <stdio.h>
 #include <iostream>
+#include <sstream>
 #include <fstream>
-#include <cctype>
+#include <string>
+#include <vector>
+
+#include "Utils.hpp"
 
 class TileMap
 {
@@ -22,20 +26,21 @@ public:
     //constants declarations
     static const int TILE_WIDTH;
     static const int TILE_HEIGHT;
+    static const std::string MAPS_DIRECTORY;
 
     //Constructors
-    TileMap();
-    TileMap(const std::string& pTileSet, unsigned int pWidth, unsigned int pHeight, const std::vector<int>& pMap);
+    TileMap(std::string pMapFileName);
     ~TileMap();
     
     //Functions/Methods
+    void load();
+    void draw(sf::RenderWindow &window);
     
 private:
-    unsigned int width;
-    unsigned int height;
-    std::string tileSet;
-    sf::Vector2u tileSize;
-    std::vector<int> map;
+    sf::Texture tileTex;
+    sf::Sprite tiles;
+    std::vector<std::vector<sf::Vector2i>> map;
+    std::string mapFileName;
 
 };
 
