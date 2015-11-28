@@ -34,6 +34,11 @@ Player::Player()
 
     isMoving = false;
     playerSpeed = .25;
+    
+    playerSprite->setPosition(128, 128);
+    destination_x = playerSprite->getPosition().x;
+    destination_y = playerSprite->getPosition().y;
+    
 }
 Player::~Player()
 {

@@ -7,6 +7,7 @@
 
 #include <fstream>
 #include <string>
+#include <sstream>
 #include <vector>
 
 int main(int, char const**)
@@ -23,28 +24,41 @@ int main(int, char const**)
     std::ifstream openfile(resourcePath() + "Maps/bourg-palette.map");
     if (openfile.is_open()) {
         std::string tileLocation;
-        openfile >> tileLocation;
+        std::getline(openfile, tileLocation);
         tileTex.loadFromFile(resourcePath() + tileLocation);
         tiles.setTexture(tileTex);
         
         while (!openfile.eof()) {
-            std::string str;
-            openfile >> str;
-            char x = str[0], y = str[2];
-            if(!isdigit(x) || !isdigit(y))
-                tmpMap.push_back(sf::Vector2i(-1, -1));
-            else
-                tmpMap.push_back(sf::Vector2i(x - '0', y - '0'));
-            
-            if (openfile.peek() == '\n') {
-                map.push_back(tmpMap);
-                tmpMap.clear();
+            std::string str, value;
+            std::getline(openfile, str);
+            std::stringstream stream(str);
+            while (std::getline(stream, value, ' ')) {
+                if(value.length() > 0) {
+                    std::string xx = value.substr(0, value.find(','));
+                    std::string yy = value.substr(value.find(',') + 1);
+                    
+                    int x, y, i, j;
+                    for(i = 0; i < xx.length(); i++) {
+                        if (!isdigit(xx[i]))
+                            break;
+                    }
+                    for(j = 0; j < yy.length(); j++) {
+                        if (!isdigit(yy[j]))
+                            break;
+                    }
+                    
+                    x = (i == xx.length()) ? atoi(xx.c_str()) : -1;
+                    y = (j == yy.length()) ? atoi(yy.c_str()) : -1;
+                    
+                    tmpMap.push_back(sf::Vector2i(x, y));
+                }
             }
+            
+            map.push_back(tmpMap);
+            tmpMap.clear();
         }
-        map.push_back(tmpMap);
     } else
         std::cout << "ERROR" << std::endl;
-    
     /**/
     
     
