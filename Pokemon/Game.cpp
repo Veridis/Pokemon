@@ -56,33 +56,78 @@ Player& Game::getPlayer() const
  */
 void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> const &colisionMap)
 {
-    sf::Vector2i spriteCoord(0, Player::Directions::DOWN);
-    /*
-    sf::Vector2i nextBlockPosition = getNearCoord(UP);
-    int blockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
-    if(blockType == 0) {
-        return;
-    }
-    */
-    
     //Directions
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)  || player->isInMovement()) {
-            player->moveUp();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)  || player->isInMovement(Player::UP)) {
+        if(!player->isInMovement(Player::UP)) {
+            sf::Vector2i nextBlockPosition = player->getNearCoord(Player::UP);
+            if(nextBlockPosition.x < 0
+               || nextBlockPosition.x > colisionMap[0].size() - 1
+               || nextBlockPosition.y < 0
+               || nextBlockPosition.y > colisionMap.size() -1) {
+                return;
+            }
+            int blockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
+            if (blockType == 0) {
+                return;
+            }
+        }
+        
+        player->moveUp();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || player->isInMovement()) {
-            player->moveRight();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || player->isInMovement(Player::RIGHT)) {
+        if(!player->isInMovement(Player::RIGHT)) {
+            sf::Vector2i nextBlockPosition = player->getNearCoord(Player::RIGHT);
+            if(nextBlockPosition.x < 0
+               || nextBlockPosition.x > colisionMap[0].size() - 1
+               || nextBlockPosition.y < 0
+               || nextBlockPosition.y > colisionMap.size() -1) {
+                return;
+            }
+            int blockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
+            if (blockType == 0) {
+                return;
+            }
+        }
+        player->moveRight();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || player->isInMovement()) {
-            player->moveDown();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || player->isInMovement(Player::DOWN)) {
+        if(!player->isInMovement(Player::DOWN)) {
+            sf::Vector2i nextBlockPosition = player->getNearCoord(Player::DOWN);
+            if(nextBlockPosition.x < 0
+               || nextBlockPosition.x > colisionMap[0].size() - 1
+               || nextBlockPosition.y < 0
+               || nextBlockPosition.y > colisionMap.size() -1) {
+                return;
+            }
+            int blockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
+            if (blockType == 0) {
+                return;
+            }
+        }
+        player->moveDown();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || player->isInMovement()) {
-            player->moveLeft();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || player->isInMovement(Player::LEFT)) {
+        if(!player->isInMovement(Player::LEFT)) {
+            sf::Vector2i nextBlockPosition = player->getNearCoord(Player::LEFT);
+            if(nextBlockPosition.x < 0
+               || nextBlockPosition.x > colisionMap[0].size() - 1
+               || nextBlockPosition.y < 0
+               || nextBlockPosition.y > colisionMap.size() -1) {
+                return;
+            }
+            int blockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
+            if (blockType == 0) {
+                return;
+            }
+        }
+        player->moveLeft();
     }
     
     if (clock.getElapsedTime().asMilliseconds() > ANIMATION_TIME) {
         player->animate(true);
         clock.restart();
     }
+
 }
 
 void Game::handleCamera(sf::FloatRect mapRect)

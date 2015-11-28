@@ -38,10 +38,10 @@ public:
     void moveDown();
     void moveRight();
     void teleportTo(int x, int y);
-    bool isInMovement() const;
+    bool isInMovement(int direction) const;
     void animate(bool);
     
-    
+    bool colision;    
 private:
     sf::Texture *playerTex;
     sf::Sprite *playerSprite;
