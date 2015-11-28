@@ -11,7 +11,7 @@ int main(int, char const**)
     Game game;
     sf::Clock clock;
     
-    TileMap map("palette.txt");
+    TileMap map("bourg-palette.txt");
     map.load();
     
     // Start the game loop
