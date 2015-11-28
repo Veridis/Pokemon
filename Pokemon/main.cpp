@@ -11,9 +11,9 @@ int main(int, char const**)
     Game game;
     sf::Clock clock;
     
-    TileMap map("bourg-palette.txt");
+    TileMap map("palet-town.txt");
     map.load();
-    game.getPlayer().teleportTo(12, 12);
+    game.getPlayer().teleportTo(40, 15);
     
     /**/
     sf::View camera;

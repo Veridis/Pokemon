@@ -27,6 +27,7 @@ public:
     static const int TILE_WIDTH;
     static const int TILE_HEIGHT;
     static const std::string MAPS_DIRECTORY;
+    static const sf::Color ALPHA_COLOR;
 
     //Constructors
     TileMap(std::string pMapFileName);

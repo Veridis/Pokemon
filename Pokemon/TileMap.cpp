@@ -11,6 +11,7 @@
 const int TileMap::TILE_WIDTH = 32;
 const int TileMap::TILE_HEIGHT = 32;
 const std::string TileMap::MAPS_DIRECTORY = "Maps/";
+const sf::Color TileMap::ALPHA_COLOR = sf::Color(0, 198, 198);
 
 
 TileMap::TileMap(std::string pMapFileName)
@@ -39,7 +40,12 @@ void TileMap::load()
     if (openfile.is_open()) {
         std::string tileLocation;
         std::getline(openfile, tileLocation);
-        tileTex.loadFromFile(resourcePath() + tileLocation);
+        
+        sf::Image image;
+        image.loadFromFile(resourcePath() + tileLocation);
+        image.createMaskFromColor(ALPHA_COLOR);
+        
+        tileTex.loadFromImage(image);
         tiles.setTexture(tileTex);
         while (!openfile.eof()) {
             std::string line, value;
