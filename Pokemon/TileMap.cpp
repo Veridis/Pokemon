@@ -23,14 +23,20 @@ TileMap::~TileMap()
     
 }
 
-int TileMap::getWidth()
+int TileMap::getWidth() const
 {
     return bgMap[0].size();
 }
-int TileMap::getHeight()
+int TileMap::getHeight() const
 {
     return bgMap.size();
 }
+
+std::vector<std::vector<int>> TileMap::getColMap() const
+{
+    return colMap;
+}
+
 
 std::vector<std::vector<sf::Vector2i>> TileMap::load(const std::string &path)
 {
@@ -66,6 +72,26 @@ std::vector<std::vector<sf::Vector2i>> TileMap::load(const std::string &path)
     
     return map;
 
+}
+
+void TileMap::loadColisionsMap()
+{
+    std::vector<int> tmpMap;
+    std::ifstream openfile(resourcePath() + MAPS_DIRECTORY + mapFileName + "-col.txt");
+    
+    if (openfile.is_open()) {
+        while (!openfile.eof()) {
+            std::string line, value;
+            std::getline(openfile, line);
+            std::stringstream stream(line);
+            while (std::getline(stream, value, ',')) {
+                tmpMap.push_back(atoi(value.c_str()));
+            }
+            colMap.push_back(tmpMap);
+            tmpMap.clear();
+        }
+    } else
+        std::cout << "ERROR : Unable to load the colMap " + mapFileName << std::endl;
 }
 
 void TileMap::loadMaps()

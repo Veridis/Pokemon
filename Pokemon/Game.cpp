@@ -54,22 +54,29 @@ Player& Game::getPlayer() const
 /*
  Handle event and keyboards keys for player movements
  */
-void Game::handlePlayerMovement(sf::Clock &clock)
+void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> const &colisionMap)
 {
     sf::Vector2i spriteCoord(0, Player::Directions::DOWN);
+    /*
+    sf::Vector2i nextBlockPosition = getNearCoord(UP);
+    int blockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
+    if(blockType == 0) {
+        return;
+    }
+    */
     
     //Directions
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)  || player->isInMovement()) {
-        player->moveUp();
+            player->moveUp();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || player->isInMovement()) {
-        player->moveRight();
+            player->moveRight();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || player->isInMovement()) {
-        player->moveDown();
+            player->moveDown();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || player->isInMovement()) {
-        player->moveLeft();
+            player->moveLeft();
     }
     
     if (clock.getElapsedTime().asMilliseconds() > ANIMATION_TIME) {
