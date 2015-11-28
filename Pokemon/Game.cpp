@@ -69,13 +69,6 @@ void Game::handlePlayerMovement(sf::Clock &clock)
         player->moveLeft();
     }
     
-    /*
-    frameCounter += frameSpeed * clock.restart().asSeconds();
-    if (frameCounter >= switchFrame) {
-        frameCounter = 0;
-        player->animate(true);
-    }
-     */
     if (clock.getElapsedTime().asMilliseconds() > ANIMATION_TIME) {
         player->animate(true);
         clock.restart();
