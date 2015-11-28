@@ -27,19 +27,25 @@ public:
     static const int TILE_WIDTH;
     static const int TILE_HEIGHT;
     static const std::string MAPS_DIRECTORY;
+    static const sf::Color ALPHA_COLOR;
 
     //Constructors
     TileMap(std::string pMapFileName);
     ~TileMap();
     
     //Functions/Methods
-    void load();
+    int getWidth();
+    int getHeight();
+    
+    std::vector<std::vector<sf::Vector2i>> load(const std::string &path);
+    void loadMaps();
     void draw(sf::RenderWindow &window);
     
 private:
     sf::Texture tileTex;
     sf::Sprite tiles;
-    std::vector<std::vector<sf::Vector2i>> map;
+    std::vector<std::vector<sf::Vector2i>> bgMap;
+    std::vector<std::vector<sf::Vector2i>> fgMap;
     std::string mapFileName;
 
 };

@@ -11,9 +11,9 @@ int main(int, char const**)
     Game game;
     sf::Clock clock;
     
-    TileMap map("bourg-palette.txt");
-    map.load();
-    game.getPlayer().teleportTo(12, 12);
+    TileMap map("palet-town");
+    map.loadMaps();
+    game.getPlayer().teleportTo(19, 22);
     
     // Start the game loop
     while (game.getWindow().isOpen())
@@ -36,15 +36,16 @@ int main(int, char const**)
                     break;
             }
         }
-        
+
+        game.handleCamera(sf::FloatRect(0,0, map.getWidth(), map.getHeight()));
+        //Drawing the map (BG & FG)
         map.draw(game.getWindow());
-        
         game.handlePlayerMovement(clock);
+        //Drawing the player
         game.getWindow().draw(game.getPlayer().getPlayerSprite());
         
         game.getWindow().display();
         game.getWindow().clear();
-
     }
 
     return EXIT_SUCCESS;
