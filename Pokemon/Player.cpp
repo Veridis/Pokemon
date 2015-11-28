@@ -34,11 +34,6 @@ Player::Player()
 
     isMoving = false;
     playerSpeed = .25;
-    
-    playerSprite->setPosition(128, 256);
-    destination_x = playerSprite->getPosition().x;
-    destination_y = playerSprite->getPosition().y;
-    
 }
 Player::~Player()
 {
@@ -127,6 +122,12 @@ void Player::moveRight()
     
     if (destination_x == playerSprite->getPosition().x && destination_y == playerSprite->getPosition().y)
         isMoving = false;
+}
+void Player::teleportTo(int x, int y)
+{
+    playerSprite->setPosition(x * SPRITE_WIDTH, y * SPRITE_HEIGHT);
+    destination_x = playerSprite->getPosition().x;
+    destination_y = playerSprite->getPosition().y;
 }
 /*
  return if the sprite is animated

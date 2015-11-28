@@ -34,6 +34,7 @@ public:
     void moveLeft();
     void moveDown();
     void moveRight();
+    void teleportTo(int x, int y);
     bool isInMovement() const;
     void animate(bool);
     

@@ -13,6 +13,7 @@ int main(int, char const**)
     
     TileMap map("bourg-palette.txt");
     map.load();
+    game.getPlayer().teleportTo(12, 12);
     
     // Start the game loop
     while (game.getWindow().isOpen())
