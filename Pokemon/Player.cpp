@@ -194,5 +194,83 @@ void Player::animate(bool)
         SPRITE_WIDTH,
         SPRITE_HEIGHT
     ));
-    
+}
+
+/*
+ Return true if there is collision
+ blockType : Current position block type
+ nearBlockType : block type of the destination block
+ */
+bool Player::checkColision(int blockType, int nearBlockType, int walkingDirection) const
+{
+    switch (nearBlockType) {
+        case BLOCK_BLOCK: {
+            return true;
+        }
+        case BLOCK_EMPTY: {
+            return false;
+        }
+        case BLOCK_WATER: {
+            /* TODO : if swimming : return false */
+            return true;
+        }
+        case BLOCK_GRASS: {
+            /* TODO check for battle*/
+            return false;
+        }
+        case BLOCK_DOWN: {
+            if (walkingDirection == DOWN)
+                return false;
+            else
+                return true;
+            return false;
+        }
+        case BLOCK_RIGHT: {
+            // TODO : check if already on block
+            if (walkingDirection == RIGHT)
+                return false;
+            else
+                return true;
+            return false;
+        }
+        case BLOCK_UP: {
+            // TODO : check if already on block
+            if (walkingDirection == UP)
+                return false;
+            else
+                return true;
+        }
+        case BLOCK_LEFT: {
+            // TODO : check if already on block
+            if (walkingDirection == LEFT)
+                return false;
+            else
+                return true;
+        }
+        case BLOCK_HORIZONTAL: {
+            if (blockType == BLOCK_HORIZONTAL) {
+                return false;
+            } else {
+                if (walkingDirection == LEFT || walkingDirection == RIGHT)
+                    return false;
+                else
+                    return true;
+                return false;
+            }
+        }
+        case BLOCK_VERTICAL: {
+            if (blockType == BLOCK_VERTICAL) {
+                return false;
+            } else {
+                if (walkingDirection == UP || walkingDirection == DOWN)
+                    return false;
+                else
+                    return true;
+            }
+        }
+        case BLOCK_WARP: {
+            /* TODO */
+            return false;
+        }
+    }
 }

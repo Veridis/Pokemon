@@ -55,6 +55,7 @@ public:
     bool isInMovement() const;
     void animate(bool);
     
+    bool checkColision(int blockType, int nearBlockType, int walkingDirection) const;
     
 private:
     sf::Texture *playerTex;
