@@ -1,7 +1,9 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
+#include <iostream>
 #include <string>
+#include <SFML/Audio.hpp>
 
 /*
  \brief Return the path to the resource folder.

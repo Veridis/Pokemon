@@ -19,6 +19,7 @@ int main(int, char const**)
     sf::Music music;
     if (!music.openFromFile(resourcePath() + "Musics/opening.ogg"))
         std::cout << "ERROR : Unable to load music";
+    music.setLoop(true);
     music.play();
     
     // Start the game loop
