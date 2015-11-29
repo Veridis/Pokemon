@@ -12,7 +12,7 @@ int main(int, char const**)
     sf::Clock clock;
     
     TileMap map("palet-town");
-    map.loadMaps();
+    map.load();
     map.loadColisionsMap();
     game.getPlayer().teleportTo(19, 22);
     
@@ -52,11 +52,14 @@ int main(int, char const**)
         }
 
         game.handleCamera(sf::FloatRect(0,0, map.getWidth(), map.getHeight()));
-        //Drawing the map (BG & FG)
-        map.draw(game.getWindow());
-        game.handlePlayerMovement(clock, map.getColMap());
+        //Drawing the map (back & middle)
+        map.draw("back", game.getWindow());
+        map.draw("middle", game.getWindow());
         //Drawing the player
+        game.handlePlayerMovement(clock, map.getColMap());
         game.getWindow().draw(game.getPlayer().getPlayerSprite());
+        //Drawing the front map
+        map.draw("front", game.getWindow());
         
         game.getWindow().display();
         game.getWindow().clear();
