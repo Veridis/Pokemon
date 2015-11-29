@@ -52,11 +52,6 @@ Player& Game::getPlayer() const
 }
 
 /*
- bug 
-    bas + droit
-    droit + haut
- 
- 
  Handle event and keyboards keys for player movements
  */
 void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> const &colisionMap)
@@ -120,7 +115,6 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> 
         player->animate(true);
         clock.restart();
     }
-
 }
 
 void Game::handleCamera(sf::FloatRect mapRect)

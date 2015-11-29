@@ -104,12 +104,14 @@ void Player::moveUp()
  */
 void Player::moveLeft()
 {
+    //Setting up the direction
     if (!isMoving) {
         spriteCoord->y = Directions::LEFT;
         isMoving = true;
         destination_x -= SPRITE_WIDTH;
     }
     
+    //Moving the sprite
     if (destination_x < playerSprite->getPosition().x)
         playerSprite->move(-playerSpeed, 0);
     
@@ -121,12 +123,14 @@ void Player::moveLeft()
  */
 void Player::moveDown()
 {
+    //Setting up the direction
     if (!isMoving) {
         spriteCoord->y = Directions::DOWN;
         isMoving = true;
         destination_y += SPRITE_HEIGHT;
     }
     
+    //Moving the sprite
     if (destination_y > playerSprite->getPosition().y)
         playerSprite->move(0, playerSpeed);
     
@@ -138,12 +142,14 @@ void Player::moveDown()
  */
 void Player::moveRight()
 {
+    //Setting up the direction
     if (!isMoving) {
         spriteCoord->y = Directions::RIGHT;
         isMoving = true;
         destination_x += SPRITE_WIDTH;
     }
     
+    //Moving the sprite
     if (destination_x > playerSprite->getPosition().x)
         playerSprite->move(playerSpeed, 0);
     
@@ -190,50 +196,3 @@ void Player::animate(bool)
     ));
     
 }
-
-/*
-bool Player::checkColision(int direction, std::vector<std::vector<int>> const &colisionMap) const
-{
-    sf::Vector2i position = getNearCoord(direction);
-    int nearBlock = colisionMap[position.y][position.x];
-    switch (direction) {
-        case UP:
-            switch (nearBlock) {
-                case BLOCK_BLOCK:
-                    return false;
-                case BLOCK_EMPTY:
-                    return true;
-                default:
-                    return false;
-            }
-        case RIGHT:
-            switch (nearBlock) {
-                case BLOCK_BLOCK:
-                    return false;
-                case BLOCK_EMPTY:
-                    return true;
-                default:
-                    return false;
-            }
-        case DOWN:
-            switch (nearBlock) {
-                case BLOCK_BLOCK:
-                    return false;
-                case BLOCK_EMPTY:
-                    return true;
-                default:
-                    return false;
-            }
-        case LEFT:
-            switch (nearBlock) {
-                case BLOCK_BLOCK:
-                    return false;
-                case BLOCK_EMPTY:
-                    return true;
-                default:
-                    return false;
-            }
-        default:
-            return false;
-    }
-}*/

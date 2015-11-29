@@ -37,7 +37,6 @@ std::vector<std::vector<int>> TileMap::getColMap() const
     return colMap;
 }
 
-
 std::vector<std::vector<sf::Vector2i>> TileMap::load(const std::string &path)
 {
     std::vector<sf::Vector2i> tmpMap;
