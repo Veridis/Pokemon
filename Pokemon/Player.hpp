@@ -20,7 +20,20 @@ public:
     static const int SPRITE_WIDTH;
     static const int SPRITE_HEIGHT;
     enum Directions { DOWN, LEFT, RIGHT, UP };
-    enum blockTypes {BLOCK_BLOCK, BLOCK_EMPTY, BLOCK_HORIZONTAL, BLOCK_VERTICAL, BLOCK_DOWN, BLOCK_RIGHT, BLOCK_UP, BLOCK_LEFT};
+    enum blockTypes {
+        BLOCK_ERROR,
+        BLOCK_BLOCK,
+        BLOCK_EMPTY,
+        BLOCK_WATER,
+        BLOCK_GRASS,
+        BLOCK_DOWN,
+        BLOCK_RIGHT,
+        BLOCK_UP,
+        BLOCK_LEFT,
+        BLOCK_HORIZONTAL,
+        BLOCK_VERTICAL,
+        BLOCK_WARP,
+    };
     
     //Constructors
     Player();

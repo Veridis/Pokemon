@@ -64,7 +64,7 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> 
                 return;
             }
             int blockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
-            if (blockType == 0) {
+            if (blockType == Player::BLOCK_BLOCK ) {
                 return;
             }
         }
@@ -78,7 +78,7 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> 
                 return;
             }
             int blockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
-            if (blockType == 0) {
+            if (blockType == Player::BLOCK_BLOCK) {
                 return;
             }
         }
@@ -91,7 +91,7 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> 
                 return;
             }
             int blockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
-            if (blockType == 0) {
+            if (blockType == Player::BLOCK_BLOCK) {
                 return;
             }
         }
@@ -104,7 +104,7 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> 
                 return;
             }
             int blockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
-            if (blockType == 0) {
+            if (blockType == Player::BLOCK_BLOCK) {
                 return;
             }
         }
