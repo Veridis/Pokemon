@@ -129,16 +129,16 @@ void Game::handleCamera(sf::FloatRect mapRect)
 {
     camera->reset(sf::FloatRect(0,0, WINDOW_WIDTH, WINDOW_HEIGHT));
     sf::Vector2f position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-    position.x = player->getPlayerSprite().getPosition().x + TileMap::TILE_WIDTH/2 - WINDOW_WIDTH / 2;
-    position.y = player->getPlayerSprite().getPosition().y + TileMap::TILE_HEIGHT/2 - WINDOW_HEIGHT / 2;
+    position.x = player->getPlayerSprite().getPosition().x + Tile::TILE_WIDTH/2 - WINDOW_WIDTH / 2;
+    position.y = player->getPlayerSprite().getPosition().y + Tile::TILE_HEIGHT/2 - WINDOW_HEIGHT / 2;
     if (position.x < 0)
         position.x = 0;
-    if (position.x > (mapRect.width * TileMap::TILE_WIDTH) - Game::WINDOW_WIDTH)
-        position.x = (mapRect.width * TileMap::TILE_WIDTH) - Game::WINDOW_WIDTH;
+    if (position.x > (mapRect.width * Tile::TILE_WIDTH) - Game::WINDOW_WIDTH)
+        position.x = (mapRect.width * Tile::TILE_WIDTH) - Game::WINDOW_WIDTH;
     if (position.y < 0)
         position.y = 0;
-    if (position.y > (mapRect.height * TileMap::TILE_HEIGHT) - Game::WINDOW_HEIGHT)
-        position.y = (mapRect.height * TileMap::TILE_HEIGHT) - Game::WINDOW_HEIGHT;
+    if (position.y > (mapRect.height * Tile::TILE_HEIGHT) - Game::WINDOW_HEIGHT)
+        position.y = (mapRect.height * Tile::TILE_HEIGHT) - Game::WINDOW_HEIGHT;
     
     camera->reset(sf::FloatRect(position.x, position.y, Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT));
     window->setView(*camera);

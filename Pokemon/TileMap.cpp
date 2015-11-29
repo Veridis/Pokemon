@@ -8,8 +8,6 @@
 
 #include "TileMap.hpp"
 
-const int TileMap::TILE_WIDTH = 32;
-const int TileMap::TILE_HEIGHT = 32;
 const std::string TileMap::MAPS_DIRECTORY = "Maps/";
 const sf::Color TileMap::ALPHA_COLOR = sf::Color(0, 198, 198);
 
@@ -91,8 +89,8 @@ void TileMap::load()
             std::getline(backfile, line);
             std::stringstream stream(line);
             while (std::getline(stream, value, ',')) {
-                int x = (atoi(value.c_str())-1) % (tileTex.getSize().x / TILE_WIDTH);
-                int y = (atoi(value.c_str())-1) / (tileTex.getSize().x / TILE_HEIGHT);
+                int x = (atoi(value.c_str())-1) % (tileTex.getSize().x / Tile::TILE_WIDTH);
+                int y = (atoi(value.c_str())-1) / (tileTex.getSize().x / Tile::TILE_HEIGHT);
                 map[i][j]->back.x = x;
                 map[i][j]->back.y = y;
                 j++;
@@ -121,8 +119,8 @@ void TileMap::load()
             std::getline(middlefile, line);
             std::stringstream stream(line);
             while (std::getline(stream, value, ',')) {
-                int x = (atoi(value.c_str())-1) % (tileTex.getSize().x / TILE_WIDTH);
-                int y = (atoi(value.c_str())-1) / (tileTex.getSize().x / TILE_HEIGHT);
+                int x = (atoi(value.c_str())-1) % (tileTex.getSize().x / Tile::TILE_WIDTH);
+                int y = (atoi(value.c_str())-1) / (tileTex.getSize().x / Tile::TILE_HEIGHT);
                 map[i][j]->middle.x = x;
                 map[i][j]->middle.y = y;
                 j++;
@@ -152,8 +150,8 @@ void TileMap::load()
             std::getline(frontfile, line);
             std::stringstream stream(line);
             while (std::getline(stream, value, ',')) {
-                int x = (atoi(value.c_str())-1) % (tileTex.getSize().x / TILE_WIDTH);
-                int y = (atoi(value.c_str())-1) / (tileTex.getSize().x / TILE_HEIGHT);
+                int x = (atoi(value.c_str())-1) % (tileTex.getSize().x / Tile::TILE_WIDTH);
+                int y = (atoi(value.c_str())-1) / (tileTex.getSize().x / Tile::TILE_HEIGHT);
                 map[i][j]->front.x = x;
                 map[i][j]->front.y = y;
                 j++;
@@ -188,7 +186,7 @@ void TileMap::draw(std::string level, sf::RenderWindow &window)
 {
     for(int i = 0; i < map.size(); i++) {
         for(int j = 0; j < map[i].size(); j++) {
-            tiles.setPosition(j * TILE_HEIGHT, i * TILE_WIDTH);
+            tiles.setPosition(j * Tile::TILE_HEIGHT, i * Tile::TILE_WIDTH);
             if("back" == level) {
                 tiles.setTextureRect(sf::IntRect(map[i][j]->back.x * Tile::TILE_WIDTH, map[i][j]->back.y * Tile::TILE_HEIGHT, Tile::TILE_WIDTH, Tile::TILE_HEIGHT));
             } else if ("middle" == level) {
