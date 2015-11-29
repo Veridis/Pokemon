@@ -39,9 +39,10 @@ public:
     void moveRight();
     void teleportTo(int x, int y);
     bool isInMovement(int direction) const;
+    bool isInMovement() const;
     void animate(bool);
     
-    bool colision;    
+    
 private:
     sf::Texture *playerTex;
     sf::Sprite *playerSprite;
@@ -50,7 +51,6 @@ private:
     bool isMoving;
     int destination_x;
     int destination_y;
-    
     float playerSpeed;
 };
 

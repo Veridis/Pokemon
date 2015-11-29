@@ -20,7 +20,6 @@ Player::Player()
     playerTex = new sf::Texture;
     playerSprite = new sf::Sprite;
     spriteCoord = new sf::Vector2i;
-    colision = false;
     
     if (!playerTex->loadFromFile(resourcePath() + "Characters/male_player_walk.png"))
         std::cout << "ERROR : could not load player Texture" << std::endl;
@@ -163,6 +162,10 @@ void Player::teleportTo(int x, int y)
 bool Player::isInMovement(int direction) const
 {
     return spriteCoord->y == direction && isMoving;
+}
+bool Player::isInMovement() const
+{
+    return isMoving;
 }
 /*
  Animate the sprite if animate is equal to true.
