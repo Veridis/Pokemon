@@ -54,7 +54,7 @@ Player& Game::getPlayer() const
 /*
  Handle event and keyboards keys for player movements
  */
-void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> const &colisionMap)
+void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>> const &map)
 {
     //Directions
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)  || player->isInMovement(Player::UP)) {
@@ -64,8 +64,8 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> 
             if(nextBlockPosition.y < 0) {
                 return;
             }
-            int blockType = colisionMap[playerPosition.y][playerPosition.x];
-            int nearBlockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
+            int blockType = map[playerPosition.y][playerPosition.x]->type;
+            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->type;
             if (player->checkColision(blockType, nearBlockType, Player::UP)) {
                 return;
             }
@@ -77,11 +77,11 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> 
         if(!player->isInMovement()) {
             sf::Vector2i nextBlockPosition = player->getNearCoord(Player::RIGHT);
             sf::Vector2i playerPosition = player->getCoord();
-            if(nextBlockPosition.x > colisionMap[0].size() - 1) {
+            if(nextBlockPosition.x > map[0].size() - 1) {
                 return;
             }
-            int blockType = colisionMap[playerPosition.y][playerPosition.x];
-            int nearBlockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
+            int blockType = map[playerPosition.y][playerPosition.x]->type;
+            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->type;
             if (player->checkColision(blockType, nearBlockType, Player::RIGHT)) {
                 return;
             }
@@ -92,11 +92,11 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> 
         if(!player->isInMovement()) {
             sf::Vector2i nextBlockPosition = player->getNearCoord(Player::DOWN);
             sf::Vector2i playerPosition = player->getCoord();
-            if(nextBlockPosition.y > colisionMap.size() -1) {
+            if(nextBlockPosition.y > map.size() -1) {
                 return;
             }
-            int blockType = colisionMap[playerPosition.y][playerPosition.x];
-            int nearBlockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
+            int blockType = map[playerPosition.y][playerPosition.x]->type;
+            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->type;
             if (player->checkColision(blockType, nearBlockType, Player::DOWN)) {
                 return;
             }
@@ -110,8 +110,8 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> 
             if(nextBlockPosition.x < 0) {
                 return;
             }
-            int blockType = colisionMap[playerPosition.y][playerPosition.x];
-            int nearBlockType = colisionMap[nextBlockPosition.y][nextBlockPosition.x];
+            int blockType = map[playerPosition.y][playerPosition.x]->type;
+            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->type;
             if (player->checkColision(blockType, nearBlockType, Player::LEFT)) {
                 return;
             }

@@ -45,7 +45,7 @@ int main(int, char const**)
                     if(event.key.code == sf::Keyboard::Space) {
                         sf::Vector2i position = game.getPlayer().getCoord();
                         sf::Vector2i near = game.getPlayer().getNearCoord(game.getPlayer().getSpriteCoord().y);
-                        int type = map.getColMap()[near.y][near.x];
+                        int type = map.getMap()[near.y][near.x]->type;
                         std::cout<< "type : " << type << std::endl;
                     }
             }
@@ -56,7 +56,7 @@ int main(int, char const**)
         map.draw("back", game.getWindow());
         map.draw("middle", game.getWindow());
         //Drawing the player
-        game.handlePlayerMovement(clock, map.getColMap());
+        game.handlePlayerMovement(clock, map.getMap());
         game.getWindow().draw(game.getPlayer().getPlayerSprite());
         //Drawing the front map
         map.draw("front", game.getWindow());
