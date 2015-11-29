@@ -34,11 +34,14 @@ public:
     ~TileMap();
     
     //Functions/Methods
-    int getWidth();
-    int getHeight();
+    int getWidth() const;
+    int getHeight() const;
+    std::vector<std::vector<int>> getColMap() const;
+    
     
     std::vector<std::vector<sf::Vector2i>> load(const std::string &path);
     void loadMaps();
+    void loadColisionsMap();
     void draw(sf::RenderWindow &window);
     
 private:
@@ -46,6 +49,7 @@ private:
     sf::Sprite tiles;
     std::vector<std::vector<sf::Vector2i>> bgMap;
     std::vector<std::vector<sf::Vector2i>> fgMap;
+    std::vector<std::vector<int>> colMap;
     std::string mapFileName;
 
 };

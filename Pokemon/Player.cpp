@@ -55,17 +55,44 @@ sf::Vector2i& Player::getSpriteCoord() const
     return *spriteCoord;
 }
 
+sf::Vector2i Player::getCoord() const
+{
+    return sf::Vector2i(playerSprite->getPosition().x / SPRITE_WIDTH, playerSprite->getPosition().y / SPRITE_HEIGHT);
+}
+sf::Vector2i Player::getNearCoord(int direction) const
+{
+    sf::Vector2i position = getCoord();
+    switch (direction) {
+        case UP:
+            position.y--;
+            break;
+        case RIGHT:
+            position.x++;
+            break;
+        case DOWN:
+            position.y++;
+            break;
+        case LEFT:
+            position.x--;
+            break;
+    }
+    
+    return position;
+}
+
 /*
  Check for top edge boundary. Move up if OK
  */
 void Player::moveUp()
 {
+    //Setting up the direction
     if (!isMoving) {
         spriteCoord->y = Directions::UP;
         isMoving = true;
         destination_y -= SPRITE_HEIGHT;
     }
     
+    //Moving the sprite
     if (destination_y < playerSprite->getPosition().y)
         playerSprite->move(0, -playerSpeed);
     
@@ -77,12 +104,14 @@ void Player::moveUp()
  */
 void Player::moveLeft()
 {
+    //Setting up the direction
     if (!isMoving) {
         spriteCoord->y = Directions::LEFT;
         isMoving = true;
         destination_x -= SPRITE_WIDTH;
     }
     
+    //Moving the sprite
     if (destination_x < playerSprite->getPosition().x)
         playerSprite->move(-playerSpeed, 0);
     
@@ -94,12 +123,14 @@ void Player::moveLeft()
  */
 void Player::moveDown()
 {
+    //Setting up the direction
     if (!isMoving) {
         spriteCoord->y = Directions::DOWN;
         isMoving = true;
         destination_y += SPRITE_HEIGHT;
     }
     
+    //Moving the sprite
     if (destination_y > playerSprite->getPosition().y)
         playerSprite->move(0, playerSpeed);
     
@@ -111,12 +142,14 @@ void Player::moveDown()
  */
 void Player::moveRight()
 {
+    //Setting up the direction
     if (!isMoving) {
         spriteCoord->y = Directions::RIGHT;
         isMoving = true;
         destination_x += SPRITE_WIDTH;
     }
     
+    //Moving the sprite
     if (destination_x > playerSprite->getPosition().x)
         playerSprite->move(playerSpeed, 0);
     
@@ -132,6 +165,10 @@ void Player::teleportTo(int x, int y)
 /*
  return if the sprite is animated
  */
+bool Player::isInMovement(int direction) const
+{
+    return spriteCoord->y == direction && isMoving;
+}
 bool Player::isInMovement() const
 {
     return isMoving;

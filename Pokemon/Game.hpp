@@ -31,7 +31,7 @@ public:
     sf::RenderWindow& getWindow() const;
     
     Player& getPlayer() const;
-    void handlePlayerMovement(sf::Clock &clock);
+    void handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> const &colisionMap);
     void handleCamera(sf::FloatRect boundaries);
     
 private:

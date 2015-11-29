@@ -20,6 +20,7 @@ public:
     static const int SPRITE_WIDTH;
     static const int SPRITE_HEIGHT;
     enum Directions { DOWN, LEFT, RIGHT, UP };
+    enum blockTypes {BLOCK_BLOCK, BLOCK_EMPTY, BLOCK_HORIZONTAL, BLOCK_VERTICAL, BLOCK_DOWN, BLOCK_RIGHT, BLOCK_UP, BLOCK_LEFT};
     
     //Constructors
     Player();
@@ -29,12 +30,15 @@ public:
     sf::Texture& getPlayerTex() const;
     sf::Sprite& getPlayerSprite() const;
     sf::Vector2i& getSpriteCoord() const;
+    sf::Vector2i getCoord() const;
+    sf::Vector2i getNearCoord(int direction) const;
     
     void moveUp();
     void moveLeft();
     void moveDown();
     void moveRight();
     void teleportTo(int x, int y);
+    bool isInMovement(int direction) const;
     bool isInMovement() const;
     void animate(bool);
     
@@ -47,7 +51,6 @@ private:
     bool isMoving;
     int destination_x;
     int destination_y;
-    
     float playerSpeed;
 };
 
