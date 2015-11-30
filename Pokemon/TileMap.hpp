@@ -29,7 +29,7 @@ public:
     static const sf::Color ALPHA_COLOR;
 
     //Constructors
-    TileMap(std::string const pMapFileName);
+    TileMap(std::string const path);
     ~TileMap();
     
     //Functions/Methods
@@ -46,7 +46,7 @@ private:
     sf::Sprite m_tiles;
     
     std::vector<std::vector<Tile*>> m_map;
-    std::string m_mapFileName;
+    std::string m_path;
 
 };
 

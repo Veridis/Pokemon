@@ -50,6 +50,8 @@ public:
     void setMiddle(sf::Vector2i const &middle);
     sf::Vector2i getFront() const;
     void setFront(sf::Vector2i const &front);
+    sf::Vector2i getMapPosition() const;
+    void setMapPosition(sf::Vector2i const &mapPosition);
     int getType() const;
     void setType(int const &type);
     
@@ -58,6 +60,7 @@ private:
     sf::Vector2i m_back;
     sf::Vector2i m_middle;
     sf::Vector2i m_front;
+    sf::Vector2i m_mapPosition;
     int m_type;
     
 };

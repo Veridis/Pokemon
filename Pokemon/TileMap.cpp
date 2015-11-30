@@ -11,13 +11,18 @@
 const std::string TileMap::MAPS_DIRECTORY = "Maps/";
 const sf::Color TileMap::ALPHA_COLOR = sf::Color(0, 198, 198);
 
-
-TileMap::TileMap(std::string const pMapFileName)
+/*
+ the 'path' parameter is the subfolder of the map.
+ ex :
+ "palet-town/palet-town" for palet-town-xxxx.txt
+ "palet-town/red-house/red-house" for redhouse-xxxx.txt
+ */
+TileMap::TileMap(std::string const path)
 {
     std::vector<Tile*> tmpMap;
-    m_mapFileName = pMapFileName;
+    m_path = path;
     //initialization of the map with empty tiles
-    std::ifstream backfile(resourcePath() + "Maps/" + m_mapFileName + "/" + m_mapFileName + "-back.txt");
+    std::ifstream backfile(resourcePath() + MAPS_DIRECTORY + m_path + "-back.txt");
     if (backfile.is_open()) {
         std::string tileLocation;
         std::getline(backfile, tileLocation);
@@ -40,14 +45,14 @@ TileMap::TileMap(std::string const pMapFileName)
             tmpMap.clear();
         }
     } else
-        std::cout << "ERROR : Unable to load the tilemap " + m_mapFileName << std::endl;
+        std::cout << "ERROR : Unable to load the tilemap " + m_path << std::endl;
     
 }
 TileMap::~TileMap()
 {
     for (int i = 0; i < getWidth(); i++) {
         for (int j = 0; j < getHeight(); j++) {
-            delete m_map[i][j];
+            delete m_map[j][i];
         }
     }
 }
@@ -81,7 +86,7 @@ void TileMap::load()
     
     //Loading back map
     for(int f = 0; f < 3; f++) {
-        std::ifstream backfile(resourcePath() + "Maps/" + m_mapFileName + "/" + m_mapFileName + filenames[f]);
+        std::ifstream backfile(resourcePath() + MAPS_DIRECTORY + m_path + filenames[f]);
         if (backfile.is_open()) {
             std::string tileLocation;
             std::getline(backfile, tileLocation);
@@ -99,6 +104,7 @@ void TileMap::load()
                 std::getline(backfile, line);
                 std::stringstream stream(line);
                 while (std::getline(stream, value, ',')) {
+                    m_map[i][j]->setMapPosition(sf::Vector2i(j, i));
                     int x = (atoi(value.c_str())-1) % (m_tileTex.getSize().x / Tile::TILE_WIDTH);
                     int y = (atoi(value.c_str())-1) / (m_tileTex.getSize().x / Tile::TILE_HEIGHT);
                     if ("-back.txt" == filenames[f])
@@ -112,7 +118,7 @@ void TileMap::load()
                 i++;
             }
         } else
-            std::cout << "ERROR : Unable to load the tilemap " + m_mapFileName + filenames[f] << std::endl;
+            std::cout << "ERROR : Unable to load the tilemap " + m_path + filenames[f] << std::endl;
     }
 }
 
@@ -123,7 +129,7 @@ void TileMap::load()
  */
 void TileMap::loadColisionsMap()
 {
-    std::ifstream openfile(resourcePath() + MAPS_DIRECTORY + m_mapFileName + "/" + m_mapFileName + "-col.txt");
+    std::ifstream openfile(resourcePath() + MAPS_DIRECTORY + m_path + "-col.txt");
     if (openfile.is_open()) {
         int i = 0;
         while (!openfile.eof()) {
@@ -138,7 +144,7 @@ void TileMap::loadColisionsMap()
             i++;
         }
     } else
-        std::cout << "ERROR : Unable to load the colMap " + m_mapFileName << std::endl;
+        std::cout << "ERROR : Unable to load the colMap " + m_path << std::endl;
 }
 
 /*

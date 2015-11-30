@@ -216,9 +216,10 @@ void Player::animate()
  nearBlockType      : block type of the destination block
  walkingDirection   : Direction of the walk
  */
-bool Player::checkColision(int const &blockType, int const &nearBlockType, int const &walkingDirection) const
+bool Player::checkColision(Tile const *blockTile, Tile const *nearBlockTile, int const &walkingDirection, TileMap *map)
 {
-    switch (nearBlockType) {
+    std::cout << blockTile->getMapPosition().x << " " << blockTile->getMapPosition().y << std::endl;
+    switch (nearBlockTile->getType()) {
         case BLOCK_BLOCK: {
             return true;
         }
@@ -263,7 +264,7 @@ bool Player::checkColision(int const &blockType, int const &nearBlockType, int c
                 return true;
         }
         case BLOCK_HORIZONTAL: {
-            if (blockType == BLOCK_HORIZONTAL) {
+            if (blockTile->getType() == BLOCK_HORIZONTAL) {
                 return false;
             } else {
                 if (walkingDirection == LEFT || walkingDirection == RIGHT)
@@ -274,7 +275,7 @@ bool Player::checkColision(int const &blockType, int const &nearBlockType, int c
             }
         }
         case BLOCK_VERTICAL: {
-            if (blockType == BLOCK_VERTICAL) {
+            if (blockTile->getType() == BLOCK_VERTICAL) {
                 return false;
             } else {
                 if (walkingDirection == UP || walkingDirection == DOWN)
@@ -285,6 +286,15 @@ bool Player::checkColision(int const &blockType, int const &nearBlockType, int c
         }
         case BLOCK_WARP: {
             /* TODO */
+            if (blockTile->getMapPosition().x == 19 && blockTile->getMapPosition().y == 22) {
+                TileMap *newMap = new TileMap("palet-town/red-house/red-house");
+                newMap->load();
+                newMap->loadColisionsMap();
+                *map = *newMap;
+                this->teleportTo(11,2);
+                //game.getPlayer().teleportTo(3, 3);
+                return true;
+            }
             return false;
         }
     }

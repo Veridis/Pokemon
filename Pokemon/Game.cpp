@@ -39,6 +39,7 @@ Game::~Game()
     delete m_window;
     delete m_player;
     delete m_camera;
+    delete m_currentMap;
 }
 
 
@@ -49,6 +50,14 @@ sf::RenderWindow& Game::getWindow() const
 Player& Game::getPlayer() const
 {
     return *m_player;
+}
+TileMap& Game::getMap() const
+{
+    return *m_currentMap;
+}
+void Game::setMap(TileMap* const map)
+{
+    m_currentMap = map;
 }
 
 /*
@@ -64,9 +73,7 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>
             if(nextBlockPosition.y < 0) {
                 return;
             }
-            int blockType = map[playerPosition.y][playerPosition.x]->getType();
-            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->getType();
-            if (m_player->checkColision(blockType, nearBlockType, Player::UP)) {
+            if (m_player->checkColision(map[playerPosition.y][playerPosition.x], map[nextBlockPosition.y][nextBlockPosition.x], Player::UP, this->m_currentMap)) {
                 return;
             }
         }
@@ -80,9 +87,7 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>
             if(nextBlockPosition.x > map[0].size() - 1) {
                 return;
             }
-            int blockType = map[playerPosition.y][playerPosition.x]->getType();
-            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->getType();
-            if (m_player->checkColision(blockType, nearBlockType, Player::RIGHT)) {
+            if (m_player->checkColision(map[playerPosition.y][playerPosition.x], map[nextBlockPosition.y][nextBlockPosition.x], Player::RIGHT, this->m_currentMap)) {
                 return;
             }
         }
@@ -95,9 +100,7 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>
             if(nextBlockPosition.y > map.size() -1) {
                 return;
             }
-            int blockType = map[playerPosition.y][playerPosition.x]->getType();
-            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->getType();
-            if (m_player->checkColision(blockType, nearBlockType, Player::DOWN)) {
+            if (m_player->checkColision(map[playerPosition.y][playerPosition.x], map[nextBlockPosition.y][nextBlockPosition.x], Player::DOWN, this->m_currentMap)) {
                 return;
             }
         }
@@ -110,9 +113,7 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>
             if(nextBlockPosition.x < 0) {
                 return;
             }
-            int blockType = map[playerPosition.y][playerPosition.x]->getType();
-            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->getType();
-            if (m_player->checkColision(blockType, nearBlockType, Player::LEFT)) {
+            if (m_player->checkColision(map[playerPosition.y][playerPosition.x], map[nextBlockPosition.y][nextBlockPosition.x], Player::LEFT, this->m_currentMap)) {
                 return;
             }
         }
@@ -131,18 +132,28 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>
 void Game::handleCamera(sf::FloatRect const &mapRect) const
 {
     m_camera->reset(sf::FloatRect(0,0, WINDOW_WIDTH, WINDOW_HEIGHT));
-    sf::Vector2f position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-    position.x = m_player->getPlayerSprite().getPosition().x + Tile::TILE_WIDTH/2 - WINDOW_WIDTH / 2;
-    position.y = m_player->getPlayerSprite().getPosition().y + Tile::TILE_HEIGHT/2 - WINDOW_HEIGHT / 2;
-    if (position.x < 0)
-        position.x = 0;
-    if (position.x > (mapRect.width * Tile::TILE_WIDTH) - Game::WINDOW_WIDTH)
-        position.x = (mapRect.width * Tile::TILE_WIDTH) - Game::WINDOW_WIDTH;
-    if (position.y < 0)
-        position.y = 0;
-    if (position.y > (mapRect.height * Tile::TILE_HEIGHT) - Game::WINDOW_HEIGHT)
-        position.y = (mapRect.height * Tile::TILE_HEIGHT) - Game::WINDOW_HEIGHT;
-    
-    m_camera->reset(sf::FloatRect(position.x, position.y, Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT));
+    //Si la map est plus petite que la taille de l'écran, on centre la map à la caméra. Sinon, elle suit le joueur.
+    if(m_currentMap->getWidth()*Tile::TILE_WIDTH < WINDOW_WIDTH && m_currentMap->getHeight()*Tile::TILE_HEIGHT < WINDOW_HEIGHT) {
+        m_camera->reset(sf::FloatRect(
+                                      -WINDOW_WIDTH/2 + (m_currentMap->getWidth()*Tile::TILE_WIDTH)/2,
+                                      -WINDOW_HEIGHT/2 + (m_currentMap->getHeight()*Tile::TILE_HEIGHT)/2,
+                                      WINDOW_WIDTH,
+                                      WINDOW_HEIGHT)
+        );
+    } else {
+        sf::Vector2f position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+        position.x = m_player->getPlayerSprite().getPosition().x + Tile::TILE_WIDTH/2 - WINDOW_WIDTH / 2;
+        position.y = m_player->getPlayerSprite().getPosition().y + Tile::TILE_HEIGHT/2 - WINDOW_HEIGHT / 2;
+        if (position.x < 0)
+            position.x = 0;
+        if (position.x > (mapRect.width * Tile::TILE_WIDTH) - Game::WINDOW_WIDTH)
+            position.x = (mapRect.width * Tile::TILE_WIDTH) - Game::WINDOW_WIDTH;
+        if (position.y < 0)
+            position.y = 0;
+        if (position.y > (mapRect.height * Tile::TILE_HEIGHT) - Game::WINDOW_HEIGHT)
+            position.y = (mapRect.height * Tile::TILE_HEIGHT) - Game::WINDOW_HEIGHT;
+        
+        m_camera->reset(sf::FloatRect(position.x, position.y, Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT));
+    }
     m_window->setView(*m_camera);
 }

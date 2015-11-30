@@ -47,6 +47,14 @@ void Tile::setFront(sf::Vector2i const &front)
 {
     m_front = front;
 }
+sf::Vector2i Tile::getMapPosition() const
+{
+    return m_mapPosition;
+}
+void Tile::setMapPosition(sf::Vector2i const &mapPosition)
+{
+    m_mapPosition = mapPosition;
+}
 int Tile::getType() const
 {
     return m_type;

@@ -15,6 +15,7 @@
 
 #include "Player.hpp"
 #include "Tile.hpp"
+#include "TileMap.hpp"
 
 class Game
 {
@@ -30,6 +31,8 @@ public:
     
     //Functions/Methods
     sf::RenderWindow& getWindow() const;
+    TileMap& getMap() const;
+    void setMap(TileMap* const map);
     
     Player& getPlayer() const;
     void handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>> const &map) const;
@@ -40,6 +43,7 @@ private:
     sf::View *m_camera;
     
     Player *m_player;
+    TileMap *m_currentMap;
     
 };
 

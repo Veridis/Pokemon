@@ -11,10 +11,13 @@ int main(int, char const**)
     Game game;
     sf::Clock clock;
     
-    TileMap map("palet-town");
-    map.load();
-    map.loadColisionsMap();
+    //TileMap *map = new TileMap("palet-town/red-house/red-house");
+    TileMap *map = new TileMap("palet-town/palet-town");
+    map->load();
+    map->loadColisionsMap();
+    //game.getPlayer().teleportTo(3, 3);
     game.getPlayer().teleportTo(19, 22);
+    game.setMap(map);
     
     sf::Music music;
     if (!music.openFromFile(resourcePath() + "Musics/opening.ogg"))
@@ -45,21 +48,21 @@ int main(int, char const**)
                     if(event.key.code == sf::Keyboard::Space) {
                         sf::Vector2i position = game.getPlayer().getCoord();
                         sf::Vector2i near = game.getPlayer().getNearCoord(game.getPlayer().getSpriteCoord().y);
-                        int type = map.getMap()[near.y][near.x]->getType();
+                        int type = map->getMap()[near.y][near.x]->getType();
                         std::cout<< "type : " << type << std::endl;
                     }
             }
         }
 
-        game.handleCamera(sf::FloatRect(0,0, map.getWidth(), map.getHeight()));
+        game.handleCamera(sf::FloatRect(0,0, map->getWidth(), map->getHeight()));
         //Drawing the map (back & middle)
-        map.draw("back", game.getWindow());
-        map.draw("middle", game.getWindow());
+        map->draw("back", game.getWindow());
+        map->draw("middle", game.getWindow());
         //Drawing the player
-        game.handlePlayerMovement(clock, map.getMap());
+        game.handlePlayerMovement(clock, map->getMap());
         game.getWindow().draw(game.getPlayer().getPlayerSprite());
         //Drawing the front map
-        map.draw("front", game.getWindow());
+        map->draw("front", game.getWindow());
         
         game.getWindow().display();
         game.getWindow().clear();

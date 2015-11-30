@@ -13,6 +13,9 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "Tile.hpp"
+#include "TileMap.hpp"
+
 class Player
 {
 public:
@@ -55,7 +58,7 @@ public:
     bool isInMovement() const;
     void animate();
     
-    bool checkColision(int const &blockType, int const &nearBlockType, int const &walkingDirection) const;
+    bool checkColision(Tile const *blockTile, Tile const *nearBlockTile, int const &walkingDirection, TileMap *map);
     
 private:
     sf::Texture *m_playerTex;
