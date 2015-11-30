@@ -66,6 +66,14 @@ std::vector<std::vector<Tile*>> TileMap::getMap() const
     return m_map;
 }
 
+/*
+ Load the 3 layers of the map.
+ The maps names must respect the following naming convention :
+    Resources/Maps/{mapName}/{mapName}-[back|middle|front].txt
+ back layer     : drawn first.
+ middle layer   : drawn second and before the player. Handle alpha tiles.
+ front layer    : draw third and after the player. Handle tiles that are supposed to be on the top of the player.
+ */
 void TileMap::load()
 {
     std::string filenames [3] = {"-back.txt", "-middle.txt", "-front.txt"};
@@ -108,6 +116,11 @@ void TileMap::load()
     }
 }
 
+/*
+ Load the colision Map.
+ The colision map must respect the following naming convention
+ Resources/Maps/{mapName}/{mapName}-col.txt
+ */
 void TileMap::loadColisionsMap()
 {
     std::ifstream openfile(resourcePath() + MAPS_DIRECTORY + m_mapFileName + "/" + m_mapFileName + "-col.txt");
@@ -128,6 +141,10 @@ void TileMap::loadColisionsMap()
         std::cout << "ERROR : Unable to load the colMap " + m_mapFileName << std::endl;
 }
 
+/*
+ draw the map according to the level layer.
+ Available levels are "back", "middle", "front"
+ */
 void TileMap::draw(std::string level, sf::RenderWindow &window)
 {
     for(int i = 0; i < m_map.size(); i++) {

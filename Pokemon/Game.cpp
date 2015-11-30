@@ -52,7 +52,7 @@ Player& Game::getPlayer() const
 }
 
 /*
- Handle event and keyboards keys for player movements
+ Handle event and keyboards keys for player movements & colisions
  */
 void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>> const &map) const
 {
@@ -125,6 +125,9 @@ void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>
     }
 }
 
+/*
+ Handle the camera scrolling.
+ */
 void Game::handleCamera(sf::FloatRect const &mapRect) const
 {
     m_camera->reset(sf::FloatRect(0,0, WINDOW_WIDTH, WINDOW_HEIGHT));

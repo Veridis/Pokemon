@@ -55,10 +55,16 @@ sf::Vector2i& Player::getSpriteCoord() const
     return *m_spriteCoord;
 }
 
+/*
+ Returns the player coordinates on the map. (Map coordinate in tiles, not pixels)
+ */
 sf::Vector2i Player::getCoord() const
 {
     return sf::Vector2i(m_playerSprite->getPosition().x / SPRITE_WIDTH, m_playerSprite->getPosition().y / SPRITE_HEIGHT);
 }
+/*
+ Returns the map coordinates of the block next to the player according to "direction"
+ */
 sf::Vector2i Player::getNearCoord(int const &direction) const
 {
     sf::Vector2i position = getCoord();
@@ -81,7 +87,8 @@ sf::Vector2i Player::getNearCoord(int const &direction) const
 }
 
 /*
- Check for top edge boundary. Move up if OK
+ If the player is not already moving (not between 2 tiles), update the Y sprite Coordinate to UP and set the direction to the upper tile.
+ Move the player up till he reach the y-destination.
  */
 void Player::moveUp()
 {
@@ -100,7 +107,8 @@ void Player::moveUp()
         m_isMoving = false;
 }
 /*
- Check for left edge boundary. Move left if OK
+ If the player is not already moving (not between 2 tiles), update the Y sprite Coordinate to LEFT and set the direction to the left tile.
+ Move the player left till he reach the x-destination.
  */
 void Player::moveLeft()
 {
@@ -119,7 +127,8 @@ void Player::moveLeft()
         m_isMoving = false;
 }
 /*
- Check for bottom edge boundary. Move down if OK
+ If the player is not already moving (not between 2 tiles), update the Y sprite Coordinate to DOWN and set the direction to the tile on the down.
+ Move the player down till he reach the y-destination.
  */
 void Player::moveDown()
 {
@@ -138,7 +147,8 @@ void Player::moveDown()
         m_isMoving = false;
 }
 /*
- Check for right edge boundary. Move right if OK
+ If the player is not already moving (not between 2 tiles), update the Y sprite Coordinate to RIGHT and set the direction to the right tile.
+ Move the player up till he reach the x-destination.
  */
 void Player::moveRight()
 {
@@ -163,19 +173,23 @@ void Player::teleportTo(int const &x, int const &y)
     m_destination_y = m_playerSprite->getPosition().y;
 }
 /*
- return if the sprite is animated
+ return whereas the sprite is animated toward a direction
  */
 bool Player::isInMovement(int const &direction) const
 {
     return m_spriteCoord->y == direction && m_isMoving;
 }
+/*
+ return whereas the sprite is animated
+ */
 bool Player::isInMovement() const
 {
     return m_isMoving;
 }
+
 /*
- Animate the sprite if animate is equal to true.
- If animate is equal to false, reset the sprite position
+ Animate the sprite if the player is moving. 
+ If not, set the X spriteCoord to 1 (standing position)
  */
 void Player::animate()
 {
@@ -198,8 +212,9 @@ void Player::animate()
 
 /*
  Return true if there is collision
- blockType : Current position block type
- nearBlockType : block type of the destination block
+ blockType          : Current position block type
+ nearBlockType      : block type of the destination block
+ walkingDirection   : Direction of the walk
  */
 bool Player::checkColision(int const &blockType, int const &nearBlockType, int const &walkingDirection) const
 {
