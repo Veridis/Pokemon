@@ -14,6 +14,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Player.hpp"
+#include "Tile.hpp"
 
 class Game
 {
@@ -31,7 +32,7 @@ public:
     sf::RenderWindow& getWindow() const;
     
     Player& getPlayer() const;
-    void handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<int>> const &colisionMap);
+    void handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>> const &map);
     void handleCamera(sf::FloatRect boundaries);
     
 private:
