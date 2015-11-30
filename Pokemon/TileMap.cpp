@@ -68,95 +68,44 @@ std::vector<std::vector<Tile*>> TileMap::getMap() const
 
 void TileMap::load()
 {
+    std::string filenames [3] = {"-back.txt", "-middle.txt", "-front.txt"};
     std::vector<Tile> tmpMap;
     
     //Loading back map
-    std::ifstream backfile(resourcePath() + "Maps/" + m_mapFileName + "/" + m_mapFileName + "-back.txt");
-    if (backfile.is_open()) {
-        std::string tileLocation;
-        std::getline(backfile, tileLocation);
-        
-        sf::Image image;
-        image.loadFromFile(resourcePath() + tileLocation);
-        image.createMaskFromColor(ALPHA_COLOR);
-        m_tileTex.loadFromImage(image);
-        m_tiles.setTexture(m_tileTex);
-        
-        int i = 0;
-        while (!backfile.eof()) {
-            int j = 0;
-            std::string line, value;
-            std::getline(backfile, line);
-            std::stringstream stream(line);
-            while (std::getline(stream, value, ',')) {
-                int x = (atoi(value.c_str())-1) % (m_tileTex.getSize().x / Tile::TILE_WIDTH);
-                int y = (atoi(value.c_str())-1) / (m_tileTex.getSize().x / Tile::TILE_HEIGHT);
-                m_map[i][j]->setBack(sf::Vector2i(x, y));
-                j++;
+    for(int f = 0; f < 3; f++) {
+        std::ifstream backfile(resourcePath() + "Maps/" + m_mapFileName + "/" + m_mapFileName + filenames[f]);
+        if (backfile.is_open()) {
+            std::string tileLocation;
+            std::getline(backfile, tileLocation);
+            
+            sf::Image image;
+            image.loadFromFile(resourcePath() + tileLocation);
+            image.createMaskFromColor(ALPHA_COLOR);
+            m_tileTex.loadFromImage(image);
+            m_tiles.setTexture(m_tileTex);
+            
+            int i = 0;
+            while (!backfile.eof()) {
+                int j = 0;
+                std::string line, value;
+                std::getline(backfile, line);
+                std::stringstream stream(line);
+                while (std::getline(stream, value, ',')) {
+                    int x = (atoi(value.c_str())-1) % (m_tileTex.getSize().x / Tile::TILE_WIDTH);
+                    int y = (atoi(value.c_str())-1) / (m_tileTex.getSize().x / Tile::TILE_HEIGHT);
+                    if ("-back.txt" == filenames[f])
+                        m_map[i][j]->setBack(sf::Vector2i(x, y));
+                    else if ("-middle.txt" == filenames[f])
+                        m_map[i][j]->setMiddle(sf::Vector2i(x, y));
+                    else if ("-front.txt" == filenames[f])
+                        m_map[i][j]->setFront(sf::Vector2i(x, y));
+                    j++;
+                }
+                i++;
             }
-            i++;
-        }
-    } else
-        std::cout << "ERROR : Unable to load the tilemap " + m_mapFileName << std::endl;
-    
-    //Loading middle map
-    std::ifstream middlefile(resourcePath() + "Maps/" + m_mapFileName + "/" + m_mapFileName + "-middle.txt");
-    if (middlefile.is_open()) {
-        std::string tileLocation;
-        std::getline(middlefile, tileLocation);
-        
-        sf::Image image;
-        image.loadFromFile(resourcePath() + tileLocation);
-        image.createMaskFromColor(ALPHA_COLOR);
-        m_tileTex.loadFromImage(image);
-        m_tiles.setTexture(m_tileTex);
-        
-        int i = 0;
-        while (!middlefile.eof()) {
-            int j = 0;
-            std::string line, value;
-            std::getline(middlefile, line);
-            std::stringstream stream(line);
-            while (std::getline(stream, value, ',')) {
-                int x = (atoi(value.c_str())-1) % (m_tileTex.getSize().x / Tile::TILE_WIDTH);
-                int y = (atoi(value.c_str())-1) / (m_tileTex.getSize().x / Tile::TILE_HEIGHT);
-                m_map[i][j]->setMiddle(sf::Vector2i(x, y));
-                j++;
-            }
-            i++;
-        }
-
-    } else
-        std::cout << "ERROR : Unable to load the tilemap " + m_mapFileName << std::endl;
-    
-    //Loading front map
-    std::ifstream frontfile(resourcePath() + "Maps/" + m_mapFileName + "/" + m_mapFileName + "-front.txt");
-    if (frontfile.is_open()) {
-        std::string tileLocation;
-        std::getline(frontfile, tileLocation);
-        
-        sf::Image image;
-        image.loadFromFile(resourcePath() + tileLocation);
-        image.createMaskFromColor(ALPHA_COLOR);
-        m_tileTex.loadFromImage(image);
-        m_tiles.setTexture(m_tileTex);
-        
-        int i = 0;
-        while (!frontfile.eof()) {
-            int j = 0;
-            std::string line, value;
-            std::getline(frontfile, line);
-            std::stringstream stream(line);
-            while (std::getline(stream, value, ',')) {
-                int x = (atoi(value.c_str())-1) % (m_tileTex.getSize().x / Tile::TILE_WIDTH);
-                int y = (atoi(value.c_str())-1) / (m_tileTex.getSize().x / Tile::TILE_HEIGHT);
-                m_map[i][j]->setFront(sf::Vector2i(x, y));
-                j++;
-            }
-            i++;
-        }
-    } else
-        std::cout << "ERROR : Unable to load the tilemap " + m_mapFileName << std::endl;
+        } else
+            std::cout << "ERROR : Unable to load the tilemap " + m_mapFileName + filenames[f] << std::endl;
+    }
 }
 
 void TileMap::loadColisionsMap()
