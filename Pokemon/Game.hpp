@@ -32,14 +32,14 @@ public:
     sf::RenderWindow& getWindow() const;
     
     Player& getPlayer() const;
-    void handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>> const &map);
-    void handleCamera(sf::FloatRect boundaries);
+    void handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>> const &map) const;
+    void handleCamera(sf::FloatRect const &boundaries) const;
     
 private:
-    sf::RenderWindow *window;
-    sf::View *camera;
+    sf::RenderWindow *m_window;
+    sf::View *m_camera;
     
-    Player *player;
+    Player *m_player;
     
 };
 

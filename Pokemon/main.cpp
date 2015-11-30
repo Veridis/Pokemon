@@ -38,14 +38,14 @@ int main(int, char const**)
                         || event.key.code == sf::Keyboard::Right
                         || event.key.code == sf::Keyboard::Down
                         || event.key.code == sf::Keyboard::Left) {
-                        game.getPlayer().animate(false);
+                        game.getPlayer().animate();
                     }                
                     break;
                 case sf::Event::KeyPressed:
                     if(event.key.code == sf::Keyboard::Space) {
                         sf::Vector2i position = game.getPlayer().getCoord();
                         sf::Vector2i near = game.getPlayer().getNearCoord(game.getPlayer().getSpriteCoord().y);
-                        int type = map.getMap()[near.y][near.x]->type;
+                        int type = map.getMap()[near.y][near.x]->getType();
                         std::cout<< "type : " << type << std::endl;
                     }
             }

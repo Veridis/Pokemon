@@ -22,115 +22,118 @@ const float Game::ANIMATION_TIME = 100;
 Game::Game()
 {
     //Window Initialisation
-    window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Pokemon !", sf::Style::Close | sf::Style::Titlebar);
+    m_window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Pokemon !", sf::Style::Close | sf::Style::Titlebar);
     sf::Image icon;
     if (!icon.loadFromFile(resourcePath() + "pokeball_icon.png")) {
         return EXIT_FAILURE;
     }
-    window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-    camera = new sf::View();
+    m_window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    m_camera = new sf::View();
     
     //Player Initialisation
-    player = new Player();
+    m_player = new Player();
 
 }
 Game::~Game()
 {
-    delete window;
-    delete player;
-    delete camera;
+    delete m_window;
+    delete m_player;
+    delete m_camera;
 }
 
 
 sf::RenderWindow& Game::getWindow() const
 {
-    return *window;
+    return *m_window;
 }
 Player& Game::getPlayer() const
 {
-    return *player;
+    return *m_player;
 }
 
 /*
- Handle event and keyboards keys for player movements
+ Handle event and keyboards keys for player movements & colisions
  */
-void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>> const &map)
+void Game::handlePlayerMovement(sf::Clock &clock, std::vector<std::vector<Tile*>> const &map) const
 {
     //Directions
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)  || player->isInMovement(Player::UP)) {
-        if(!player->isInMovement()) {
-            sf::Vector2i nextBlockPosition = player->getNearCoord(Player::UP);
-            sf::Vector2i playerPosition = player->getCoord();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)  || m_player->isInMovement(Player::UP)) {
+        if(!m_player->isInMovement()) {
+            sf::Vector2i nextBlockPosition = m_player->getNearCoord(Player::UP);
+            sf::Vector2i playerPosition = m_player->getCoord();
             if(nextBlockPosition.y < 0) {
                 return;
             }
-            int blockType = map[playerPosition.y][playerPosition.x]->type;
-            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->type;
-            if (player->checkColision(blockType, nearBlockType, Player::UP)) {
+            int blockType = map[playerPosition.y][playerPosition.x]->getType();
+            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->getType();
+            if (m_player->checkColision(blockType, nearBlockType, Player::UP)) {
                 return;
             }
         }
         
-        player->moveUp();
+        m_player->moveUp();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || player->isInMovement(Player::RIGHT)) {
-        if(!player->isInMovement()) {
-            sf::Vector2i nextBlockPosition = player->getNearCoord(Player::RIGHT);
-            sf::Vector2i playerPosition = player->getCoord();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || m_player->isInMovement(Player::RIGHT)) {
+        if(!m_player->isInMovement()) {
+            sf::Vector2i nextBlockPosition = m_player->getNearCoord(Player::RIGHT);
+            sf::Vector2i playerPosition = m_player->getCoord();
             if(nextBlockPosition.x > map[0].size() - 1) {
                 return;
             }
-            int blockType = map[playerPosition.y][playerPosition.x]->type;
-            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->type;
-            if (player->checkColision(blockType, nearBlockType, Player::RIGHT)) {
+            int blockType = map[playerPosition.y][playerPosition.x]->getType();
+            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->getType();
+            if (m_player->checkColision(blockType, nearBlockType, Player::RIGHT)) {
                 return;
             }
         }
-        player->moveRight();
+        m_player->moveRight();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || player->isInMovement(Player::DOWN)) {
-        if(!player->isInMovement()) {
-            sf::Vector2i nextBlockPosition = player->getNearCoord(Player::DOWN);
-            sf::Vector2i playerPosition = player->getCoord();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || m_player->isInMovement(Player::DOWN)) {
+        if(!m_player->isInMovement()) {
+            sf::Vector2i nextBlockPosition = m_player->getNearCoord(Player::DOWN);
+            sf::Vector2i playerPosition = m_player->getCoord();
             if(nextBlockPosition.y > map.size() -1) {
                 return;
             }
-            int blockType = map[playerPosition.y][playerPosition.x]->type;
-            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->type;
-            if (player->checkColision(blockType, nearBlockType, Player::DOWN)) {
+            int blockType = map[playerPosition.y][playerPosition.x]->getType();
+            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->getType();
+            if (m_player->checkColision(blockType, nearBlockType, Player::DOWN)) {
                 return;
             }
         }
-        player->moveDown();
+        m_player->moveDown();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || player->isInMovement(Player::LEFT)) {
-        if(!player->isInMovement()) {
-            sf::Vector2i nextBlockPosition = player->getNearCoord(Player::LEFT);
-            sf::Vector2i playerPosition = player->getCoord();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || m_player->isInMovement(Player::LEFT)) {
+        if(!m_player->isInMovement()) {
+            sf::Vector2i nextBlockPosition = m_player->getNearCoord(Player::LEFT);
+            sf::Vector2i playerPosition = m_player->getCoord();
             if(nextBlockPosition.x < 0) {
                 return;
             }
-            int blockType = map[playerPosition.y][playerPosition.x]->type;
-            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->type;
-            if (player->checkColision(blockType, nearBlockType, Player::LEFT)) {
+            int blockType = map[playerPosition.y][playerPosition.x]->getType();
+            int nearBlockType = map[nextBlockPosition.y][nextBlockPosition.x]->getType();
+            if (m_player->checkColision(blockType, nearBlockType, Player::LEFT)) {
                 return;
             }
         }
-        player->moveLeft();
+        m_player->moveLeft();
     }
     
     if (clock.getElapsedTime().asMilliseconds() > ANIMATION_TIME) {
-        player->animate(true);
+        m_player->animate();
         clock.restart();
     }
 }
 
-void Game::handleCamera(sf::FloatRect mapRect)
+/*
+ Handle the camera scrolling.
+ */
+void Game::handleCamera(sf::FloatRect const &mapRect) const
 {
-    camera->reset(sf::FloatRect(0,0, WINDOW_WIDTH, WINDOW_HEIGHT));
+    m_camera->reset(sf::FloatRect(0,0, WINDOW_WIDTH, WINDOW_HEIGHT));
     sf::Vector2f position(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-    position.x = player->getPlayerSprite().getPosition().x + Tile::TILE_WIDTH/2 - WINDOW_WIDTH / 2;
-    position.y = player->getPlayerSprite().getPosition().y + Tile::TILE_HEIGHT/2 - WINDOW_HEIGHT / 2;
+    position.x = m_player->getPlayerSprite().getPosition().x + Tile::TILE_WIDTH/2 - WINDOW_WIDTH / 2;
+    position.y = m_player->getPlayerSprite().getPosition().y + Tile::TILE_HEIGHT/2 - WINDOW_HEIGHT / 2;
     if (position.x < 0)
         position.x = 0;
     if (position.x > (mapRect.width * Tile::TILE_WIDTH) - Game::WINDOW_WIDTH)
@@ -140,6 +143,6 @@ void Game::handleCamera(sf::FloatRect mapRect)
     if (position.y > (mapRect.height * Tile::TILE_HEIGHT) - Game::WINDOW_HEIGHT)
         position.y = (mapRect.height * Tile::TILE_HEIGHT) - Game::WINDOW_HEIGHT;
     
-    camera->reset(sf::FloatRect(position.x, position.y, Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT));
-    window->setView(*camera);
+    m_camera->reset(sf::FloatRect(position.x, position.y, Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT));
+    m_window->setView(*m_camera);
 }

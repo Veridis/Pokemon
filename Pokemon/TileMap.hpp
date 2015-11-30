@@ -29,7 +29,7 @@ public:
     static const sf::Color ALPHA_COLOR;
 
     //Constructors
-    TileMap(std::string pMapFileName);
+    TileMap(std::string const pMapFileName);
     ~TileMap();
     
     //Functions/Methods
@@ -42,11 +42,11 @@ public:
     void loadColisionsMap();
     void draw(std::string level,sf::RenderWindow &window);
 private:
-    sf::Texture tileTex;
-    sf::Sprite tiles;
+    sf::Texture m_tileTex;
+    sf::Sprite m_tiles;
     
-    std::vector<std::vector<Tile*>> map;
-    std::string mapFileName;
+    std::vector<std::vector<Tile*>> m_map;
+    std::string m_mapFileName;
 
 };
 
