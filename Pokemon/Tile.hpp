@@ -42,17 +42,23 @@ public:
     //Constructors
     Tile();
     ~Tile();
-    
-    // Members
-    sf::Vector2i back;
-    sf::Vector2i middle;
-    sf::Vector2i front;
-    int type;
-    
+
     //Functions/Methods
+    sf::Vector2i getBack() const;
+    void setBack(sf::Vector2i const &back);
+    sf::Vector2i getMiddle() const;
+    void setMiddle(sf::Vector2i const &middle);
+    sf::Vector2i getFront() const;
+    void setFront(sf::Vector2i const &front);
+    int getType() const;
+    void setType(int const &type);
     
 private:
-    
+    // Members
+    sf::Vector2i m_back;
+    sf::Vector2i m_middle;
+    sf::Vector2i m_front;
+    int m_type;
     
 };
 

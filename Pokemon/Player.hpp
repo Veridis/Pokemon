@@ -44,28 +44,28 @@ public:
     sf::Sprite& getPlayerSprite() const;
     sf::Vector2i& getSpriteCoord() const;
     sf::Vector2i getCoord() const;
-    sf::Vector2i getNearCoord(int direction) const;
+    sf::Vector2i getNearCoord(int const &direction) const;
     
     void moveUp();
     void moveLeft();
     void moveDown();
     void moveRight();
-    void teleportTo(int x, int y);
-    bool isInMovement(int direction) const;
+    void teleportTo(int const &x, int const &y);
+    bool isInMovement(int const &direction) const;
     bool isInMovement() const;
-    void animate(bool);
+    void animate();
     
-    bool checkColision(int blockType, int nearBlockType, int walkingDirection) const;
+    bool checkColision(int const &blockType, int const &nearBlockType, int const &walkingDirection) const;
     
 private:
-    sf::Texture *playerTex;
-    sf::Sprite *playerSprite;
-    sf::Vector2i *spriteCoord;
+    sf::Texture *m_playerTex;
+    sf::Sprite *m_playerSprite;
+    sf::Vector2i *m_spriteCoord;
     
-    bool isMoving;
-    int destination_x;
-    int destination_y;
-    float playerSpeed;
+    bool m_isMoving;
+    int m_destination_x;
+    int m_destination_y;
+    float m_playerSpeed;
 };
 
 

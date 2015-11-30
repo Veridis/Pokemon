@@ -17,49 +17,49 @@ const int Player::SPRITE_HEIGHT = 32;
 
 Player::Player()
 {
-    playerTex = new sf::Texture;
-    playerSprite = new sf::Sprite;
-    spriteCoord = new sf::Vector2i;
+    m_playerTex = new sf::Texture;
+    m_playerSprite = new sf::Sprite;
+    m_spriteCoord = new sf::Vector2i;
     
-    if (!playerTex->loadFromFile(resourcePath() + "Characters/male_player_walk.png"))
+    if (!m_playerTex->loadFromFile(resourcePath() + "Characters/male_player_walk.png"))
         std::cout << "ERROR : could not load player Texture" << std::endl;
 
-    playerSprite->setTexture(*playerTex);
-    playerSprite->setTextureRect(sf::IntRect(
-        spriteCoord->x * SPRITE_WIDTH,
-        spriteCoord->y * SPRITE_HEIGHT,
+    m_playerSprite->setTexture(*m_playerTex);
+    m_playerSprite->setTextureRect(sf::IntRect(
+        m_spriteCoord->x * SPRITE_WIDTH,
+        m_spriteCoord->y * SPRITE_HEIGHT,
         SPRITE_WIDTH,
         SPRITE_HEIGHT
     ));
 
-    isMoving = false;
-    playerSpeed = .25;
+    m_isMoving = false;
+    m_playerSpeed = .25f;
 }
 Player::~Player()
 {
-    delete playerTex;
-    delete playerSprite;
-    delete spriteCoord;
+    delete m_playerTex;
+    delete m_playerSprite;
+    delete m_spriteCoord;
 }
 
 sf::Texture& Player::getPlayerTex() const
 {
-    return *playerTex;
+    return *m_playerTex;
 }
 sf::Sprite& Player::getPlayerSprite() const
 {
-    return *playerSprite;
+    return *m_playerSprite;
 }
 sf::Vector2i& Player::getSpriteCoord() const
 {
-    return *spriteCoord;
+    return *m_spriteCoord;
 }
 
 sf::Vector2i Player::getCoord() const
 {
-    return sf::Vector2i(playerSprite->getPosition().x / SPRITE_WIDTH, playerSprite->getPosition().y / SPRITE_HEIGHT);
+    return sf::Vector2i(m_playerSprite->getPosition().x / SPRITE_WIDTH, m_playerSprite->getPosition().y / SPRITE_HEIGHT);
 }
-sf::Vector2i Player::getNearCoord(int direction) const
+sf::Vector2i Player::getNearCoord(int const &direction) const
 {
     sf::Vector2i position = getCoord();
     switch (direction) {
@@ -86,18 +86,18 @@ sf::Vector2i Player::getNearCoord(int direction) const
 void Player::moveUp()
 {
     //Setting up the direction
-    if (!isMoving) {
-        spriteCoord->y = Directions::UP;
-        isMoving = true;
-        destination_y -= SPRITE_HEIGHT;
+    if (!m_isMoving) {
+        m_spriteCoord->y = Directions::UP;
+        m_isMoving = true;
+        m_destination_y -= SPRITE_HEIGHT;
     }
     
     //Moving the sprite
-    if (destination_y < playerSprite->getPosition().y)
-        playerSprite->move(0, -playerSpeed);
+    if (m_destination_y < m_playerSprite->getPosition().y)
+        m_playerSprite->move(0, -m_playerSpeed);
     
-    if (destination_x == playerSprite->getPosition().x && destination_y == playerSprite->getPosition().y)
-        isMoving = false;
+    if (m_destination_x == m_playerSprite->getPosition().x && m_destination_y == m_playerSprite->getPosition().y)
+        m_isMoving = false;
 }
 /*
  Check for left edge boundary. Move left if OK
@@ -105,18 +105,18 @@ void Player::moveUp()
 void Player::moveLeft()
 {
     //Setting up the direction
-    if (!isMoving) {
-        spriteCoord->y = Directions::LEFT;
-        isMoving = true;
-        destination_x -= SPRITE_WIDTH;
+    if (!m_isMoving) {
+        m_spriteCoord->y = Directions::LEFT;
+        m_isMoving = true;
+        m_destination_x -= SPRITE_WIDTH;
     }
     
     //Moving the sprite
-    if (destination_x < playerSprite->getPosition().x)
-        playerSprite->move(-playerSpeed, 0);
+    if (m_destination_x < m_playerSprite->getPosition().x)
+        m_playerSprite->move(-m_playerSpeed, 0);
     
-    if (destination_x == playerSprite->getPosition().x && destination_y == playerSprite->getPosition().y)
-        isMoving = false;
+    if (m_destination_x == m_playerSprite->getPosition().x && m_destination_y == m_playerSprite->getPosition().y)
+        m_isMoving = false;
 }
 /*
  Check for bottom edge boundary. Move down if OK
@@ -124,18 +124,18 @@ void Player::moveLeft()
 void Player::moveDown()
 {
     //Setting up the direction
-    if (!isMoving) {
-        spriteCoord->y = Directions::DOWN;
-        isMoving = true;
-        destination_y += SPRITE_HEIGHT;
+    if (!m_isMoving) {
+        m_spriteCoord->y = Directions::DOWN;
+        m_isMoving = true;
+        m_destination_y += SPRITE_HEIGHT;
     }
     
     //Moving the sprite
-    if (destination_y > playerSprite->getPosition().y)
-        playerSprite->move(0, playerSpeed);
+    if (m_destination_y > m_playerSprite->getPosition().y)
+        m_playerSprite->move(0, m_playerSpeed);
     
-    if (destination_x == playerSprite->getPosition().x && destination_y == playerSprite->getPosition().y)
-        isMoving = false;
+    if (m_destination_x == m_playerSprite->getPosition().x && m_destination_y == m_playerSprite->getPosition().y)
+        m_isMoving = false;
 }
 /*
  Check for right edge boundary. Move right if OK
@@ -143,54 +143,54 @@ void Player::moveDown()
 void Player::moveRight()
 {
     //Setting up the direction
-    if (!isMoving) {
-        spriteCoord->y = Directions::RIGHT;
-        isMoving = true;
-        destination_x += SPRITE_WIDTH;
+    if (!m_isMoving) {
+        m_spriteCoord->y = Directions::RIGHT;
+        m_isMoving = true;
+        m_destination_x += SPRITE_WIDTH;
     }
     
     //Moving the sprite
-    if (destination_x > playerSprite->getPosition().x)
-        playerSprite->move(playerSpeed, 0);
+    if (m_destination_x > m_playerSprite->getPosition().x)
+        m_playerSprite->move(m_playerSpeed, 0);
     
-    if (destination_x == playerSprite->getPosition().x && destination_y == playerSprite->getPosition().y)
-        isMoving = false;
+    if (m_destination_x == m_playerSprite->getPosition().x && m_destination_y == m_playerSprite->getPosition().y)
+        m_isMoving = false;
 }
-void Player::teleportTo(int x, int y)
+void Player::teleportTo(int const &x, int const &y)
 {
-    playerSprite->setPosition(x * SPRITE_WIDTH, y * SPRITE_HEIGHT);
-    destination_x = playerSprite->getPosition().x;
-    destination_y = playerSprite->getPosition().y;
+    m_playerSprite->setPosition(x * SPRITE_WIDTH, y * SPRITE_HEIGHT);
+    m_destination_x = m_playerSprite->getPosition().x;
+    m_destination_y = m_playerSprite->getPosition().y;
 }
 /*
  return if the sprite is animated
  */
-bool Player::isInMovement(int direction) const
+bool Player::isInMovement(int const &direction) const
 {
-    return spriteCoord->y == direction && isMoving;
+    return m_spriteCoord->y == direction && m_isMoving;
 }
 bool Player::isInMovement() const
 {
-    return isMoving;
+    return m_isMoving;
 }
 /*
  Animate the sprite if animate is equal to true.
  If animate is equal to false, reset the sprite position
  */
-void Player::animate(bool)
+void Player::animate()
 {
-    if(!isMoving) {
-        spriteCoord->x = 1;
+    if(!m_isMoving) {
+        m_spriteCoord->x = 1;
     } else {
-        spriteCoord->x++;
-        if (spriteCoord->x * SPRITE_WIDTH >= playerTex->getSize().x) {
-            spriteCoord->x = 0;
+        m_spriteCoord->x++;
+        if (m_spriteCoord->x * SPRITE_WIDTH >= m_playerTex->getSize().x) {
+            m_spriteCoord->x = 0;
         }
     }
     
-    playerSprite->setTextureRect(sf::IntRect(
-        spriteCoord->x * SPRITE_WIDTH,
-        spriteCoord->y * SPRITE_HEIGHT,
+    m_playerSprite->setTextureRect(sf::IntRect(
+        m_spriteCoord->x * SPRITE_WIDTH,
+        m_spriteCoord->y * SPRITE_HEIGHT,
         SPRITE_WIDTH,
         SPRITE_HEIGHT
     ));
@@ -201,7 +201,7 @@ void Player::animate(bool)
  blockType : Current position block type
  nearBlockType : block type of the destination block
  */
-bool Player::checkColision(int blockType, int nearBlockType, int walkingDirection) const
+bool Player::checkColision(int const &blockType, int const &nearBlockType, int const &walkingDirection) const
 {
     switch (nearBlockType) {
         case BLOCK_BLOCK: {
