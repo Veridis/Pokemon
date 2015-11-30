@@ -290,8 +290,10 @@ bool Player::checkColision(Tile const *blockTile, Tile const *nearBlockTile, int
                 TileMap *newMap = new TileMap("palet-town/red-house/red-house");
                 newMap->load();
                 newMap->loadColisionsMap();
+                // TODO : Delete old map
                 *map = *newMap;
                 this->teleportTo(11,2);
+                
                 //game.getPlayer().teleportTo(3, 3);
                 return true;
             }
