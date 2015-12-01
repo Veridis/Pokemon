@@ -36,18 +36,29 @@ public:
     int getWidth() const;
     int getHeight() const;
     std::vector<std::vector<Tile*>> getMap() const;
+    std::vector<struct Warp> getWarpMap() const;
     
     
     void load();
     void loadColisionsMap();
+    void loadWarpMap();
     void draw(std::string level,sf::RenderWindow &window);
 private:
     sf::Texture m_tileTex;
     sf::Sprite m_tiles;
     
     std::vector<std::vector<Tile*>> m_map;
+    //std::map<sf::Vector2i, std::string> m_warpMap;
+    std::vector<struct Warp> m_warpMap;
     std::string m_path;
 
+};
+
+struct Warp {
+    sf::Vector2i m_tile;
+    int m_direction;
+    std::string m_mapPath;
+    sf::Vector2i m_destination;
 };
 
 #endif /* TileMap_hpp */

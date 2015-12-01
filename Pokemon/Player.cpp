@@ -166,8 +166,9 @@ void Player::moveRight()
     if (m_destination_x == m_playerSprite->getPosition().x && m_destination_y == m_playerSprite->getPosition().y)
         m_isMoving = false;
 }
-void Player::teleportTo(int const &x, int const &y)
+void Player::teleportTo(int const x, int const y)
 {
+    std::cout << "tp : " << x << " " << y << std::endl;
     m_playerSprite->setPosition(x * SPRITE_WIDTH, y * SPRITE_HEIGHT);
     m_destination_x = m_playerSprite->getPosition().x;
     m_destination_y = m_playerSprite->getPosition().y;
@@ -218,7 +219,6 @@ void Player::animate()
  */
 bool Player::checkColision(Tile const *blockTile, Tile const *nearBlockTile, int const &walkingDirection, TileMap *map)
 {
-    std::cout << blockTile->getMapPosition().x << " " << blockTile->getMapPosition().y << std::endl;
     switch (nearBlockTile->getType()) {
         case BLOCK_BLOCK: {
             return true;
@@ -286,17 +286,26 @@ bool Player::checkColision(Tile const *blockTile, Tile const *nearBlockTile, int
         }
         case BLOCK_WARP: {
             /* TODO */
-            if (blockTile->getMapPosition().x == 19 && blockTile->getMapPosition().y == 22) {
-                TileMap *newMap = new TileMap("palet-town/red-house/red-house");
-                newMap->load();
-                newMap->loadColisionsMap();
-                // TODO : Delete old map
-                *map = *newMap;
-                this->teleportTo(11,2);
-                
-                //game.getPlayer().teleportTo(3, 3);
-                return true;
+            for (int i = 0; i < map->getWarpMap().size(); i++) {
+                if (nearBlockTile->getMapPosition().x == map->getWarpMap()[i].m_tile.x && nearBlockTile->getMapPosition().y == map->getWarpMap()[i].m_tile.y) {
+                    std::cout << map->getWarpMap()[i].m_destination.x << " " << map->getWarpMap()[i].m_destination.y << std::endl;
+                    //TODO : set player direction;
+                    TileMap *newMap = new TileMap(map->getWarpMap()[i].m_mapPath);
+                    newMap->load();
+                    newMap->loadColisionsMap();
+                    newMap->loadWarpMap();
+                    //TODO : loadWarpMap;
+                    // TODO : Delete old map
+                    int destX = map->getWarpMap()[i].m_destination.x;
+                    int destY = map->getWarpMap()[i].m_destination.y;
+                    
+                    *map = *newMap;
+                    this->teleportTo(destX, destY);
+                    
+                    return true;
+                }
             }
+            
             return false;
         }
     }

@@ -15,6 +15,7 @@ int main(int, char const**)
     TileMap *map = new TileMap("palet-town/palet-town");
     map->load();
     map->loadColisionsMap();
+    map->loadWarpMap();
     //game.getPlayer().teleportTo(3, 3);
     game.getPlayer().teleportTo(19, 22);
     game.setMap(map);
@@ -49,7 +50,8 @@ int main(int, char const**)
                         sf::Vector2i position = game.getPlayer().getCoord();
                         sf::Vector2i near = game.getPlayer().getNearCoord(game.getPlayer().getSpriteCoord().y);
                         int type = map->getMap()[near.y][near.x]->getType();
-                        std::cout<< "type : " << type << std::endl;
+                        std::cout<< "front type : " << type << std::endl;
+                        std::cout << "current pos : " << position.x << ";" << position.y << std::endl;
                     }
             }
         }

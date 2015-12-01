@@ -1,0 +1,6 @@
+17|8|3|palet-town/red-house/red-house|11|2
+6|8|3|palet-town/red-house/red-house|11|2
+5|16|3|palet-town/red-house/red-house|11|2
+19|21|3|palet-town/red-house/red-house|11|2
+12|0|3|road-1/road-1|12|41
+13|0|3|road-1/road-1|13|41

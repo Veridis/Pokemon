@@ -53,7 +53,7 @@ public:
     void moveLeft();
     void moveDown();
     void moveRight();
-    void teleportTo(int const &x, int const &y);
+    void teleportTo(int const x, int const y);
     bool isInMovement(int const &direction) const;
     bool isInMovement() const;
     void animate();

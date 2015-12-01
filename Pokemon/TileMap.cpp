@@ -71,6 +71,11 @@ std::vector<std::vector<Tile*>> TileMap::getMap() const
     return m_map;
 }
 
+std::vector<struct Warp> TileMap::getWarpMap() const
+{
+    return m_warpMap;
+}
+
 /*
  Load the 3 layers of the map.
  The maps names must respect the following naming convention :
@@ -144,7 +149,40 @@ void TileMap::loadColisionsMap()
             i++;
         }
     } else
-        std::cout << "ERROR : Unable to load the colMap " + m_path << std::endl;
+        std::cout << "ERROR : Unable to load the colision Map " + m_path << std::endl;
+}
+
+/*
+ 
+ 17|8|3|palet-town/red-house/red-house|11|2
+ x_warpMap|y_warmMap|direction|path|x_dest|y_dest
+ */
+void TileMap::loadWarpMap()
+{
+    std::ifstream warpfile(resourcePath() + MAPS_DIRECTORY + m_path + "-warp.txt");
+    if (warpfile.is_open()) {
+        while (!warpfile.eof()) {
+            std::string line, value;
+            std::getline(warpfile, line);
+            std::stringstream stream(line);
+            
+            std::getline(stream, value, '|'); int xtile = atoi(value.c_str());
+            std::getline(stream, value, '|'); int ytile = atoi(value.c_str());
+            std::getline(stream, value, '|'); int direction = atoi(value.c_str());
+            std::getline(stream, value, '|'); std::string path = value;
+            std::getline(stream, value, '|'); int xdest = atoi(value.c_str());
+            std::getline(stream, value, '|'); int ydest = atoi(value.c_str());
+            
+            struct Warp warp;
+            warp.m_tile = sf::Vector2i(xtile,ytile);
+            warp.m_direction = direction;
+            warp.m_mapPath = path;
+            warp.m_destination = sf::Vector2i(xdest, ydest);
+            m_warpMap.push_back(warp);
+            
+        }
+    } else
+        std::cout << "ERROR : Unable to load the warp Map " + m_path << std::endl;
 }
 
 /*
