@@ -168,7 +168,6 @@ void Player::moveRight()
 }
 void Player::teleportTo(int const x, int const y)
 {
-    std::cout << "tp : " << x << " " << y << std::endl;
     m_playerSprite->setPosition(x * SPRITE_WIDTH, y * SPRITE_HEIGHT);
     m_destination_x = m_playerSprite->getPosition().x;
     m_destination_y = m_playerSprite->getPosition().y;
@@ -288,13 +287,11 @@ bool Player::checkColision(Tile const *blockTile, Tile const *nearBlockTile, int
             /* TODO */
             for (int i = 0; i < map->getWarpMap().size(); i++) {
                 if (nearBlockTile->getMapPosition().x == map->getWarpMap()[i].m_tile.x && nearBlockTile->getMapPosition().y == map->getWarpMap()[i].m_tile.y) {
-                    std::cout << map->getWarpMap()[i].m_destination.x << " " << map->getWarpMap()[i].m_destination.y << std::endl;
                     //TODO : set player direction;
                     TileMap *newMap = new TileMap(map->getWarpMap()[i].m_mapPath);
                     newMap->load();
                     newMap->loadColisionsMap();
                     newMap->loadWarpMap();
-                    //TODO : loadWarpMap;
                     // TODO : Delete old map
                     int destX = map->getWarpMap()[i].m_destination.x;
                     int destY = map->getWarpMap()[i].m_destination.y;
