@@ -211,6 +211,8 @@ void Player::animate()
 }
 
 /*
+ /!\   TODO : Put this function in Game class   /!\
+ 
  Return true if there is collision
  blockType          : Current position block type
  nearBlockType      : block type of the destination block
@@ -292,11 +294,11 @@ bool Player::checkColision(Tile const *blockTile, Tile const *nearBlockTile, int
                     newMap->load();
                     newMap->loadColisionsMap();
                     newMap->loadWarpMap();
-                    // TODO : Delete old map
                     int destX = map->getWarpMap()[i].m_destination.x;
                     int destY = map->getWarpMap()[i].m_destination.y;
-                    
+                    map->clearTiles(); // TODO : Delete old map (don't know if it works)
                     *map = *newMap;
+                    
                     this->teleportTo(destX, destY);
                     
                     return true;

@@ -57,6 +57,16 @@ TileMap::~TileMap()
     }
 }
 
+void TileMap::clearTiles()
+{
+    int width = getWidth();int height = getHeight();
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+            delete m_map[j][i];
+        }
+    }
+}
+
 int TileMap::getWidth() const
 {
     return m_map[0].size();

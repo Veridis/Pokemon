@@ -33,6 +33,7 @@ public:
     ~TileMap();
     
     //Functions/Methods
+    void clearTiles();
     int getWidth() const;
     int getHeight() const;
     std::vector<std::vector<Tile*>> getMap() const;
